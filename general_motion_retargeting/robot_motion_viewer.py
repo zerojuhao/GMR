@@ -51,8 +51,8 @@ class RobotMotionViewer:
                 # video recording
                 record_video=False,
                 video_path=None,
-                video_width=640,
-                video_height=480,
+                video_width=1920,
+                video_height=1080,
                 keyboard_callback=None,
                 ):
         

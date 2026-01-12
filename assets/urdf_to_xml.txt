@@ -1,0 +1,2 @@
+
+urdf2mjcf assets/roboparty_atom02/atom02.urdf --output assets/roboparty_atom02/atom02.xml

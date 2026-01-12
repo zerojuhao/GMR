@@ -8,6 +8,22 @@ def convert_smpl_to_smplx(input_path, output_path, gender='neutral'):
     smpl_data = np.load(input_path, allow_pickle=True)
     data_dict = dict(smpl_data)  # Convert to dict for modification
 
+    # 必要键检查：如果缺少任意一项则跳过
+    has_mocap = ('mocap_framerate' in data_dict) or ('mocap_frame_rate' in data_dict)
+    required_missing = []
+    if 'betas' not in data_dict:
+        required_missing.append('betas')
+    if not has_mocap:
+        required_missing.append('mocap_framerate / mocap_frame_rate')
+    if 'poses' not in data_dict:
+        required_missing.append('poses')
+    if 'gender' not in data_dict:
+        required_missing.append('gender')
+
+    if required_missing:
+        print(f"######################################### Skipping {input_path}: missing keys {required_missing} #########################################")
+        return
+    
     # Handle betas padding for SMPL-X (pad from 10 to 16 if necessary)
     if 'betas' in data_dict:
         betas = data_dict['betas']
@@ -63,17 +79,19 @@ def process_directory(src_folder, tgt_folder, gender='neutral'):
                 rel_path = os.path.relpath(root, src_folder)
                 output_dir = os.path.join(tgt_folder, rel_path)
                 os.makedirs(output_dir, exist_ok=True)
-                output_path = os.path.join(output_dir, filename)
+                # 去掉文件名中的 "_poses" 部分
+                out_filename = filename.replace("_poses", "")
+                output_path = os.path.join(output_dir, out_filename)
                 convert_smpl_to_smplx(input_path, output_path, gender)
                 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert SMPL motion data to SMPL-X format.")
     parser.add_argument("--src_folder", type=str, 
-                        default="/home/msi/Desktop/BMLhandball/",
+                        default="/home/msi/Desktop/AMASS/raw/CMU",
                         help="Source directory of SMPL .npz files")
     
     parser.add_argument("--tgt_folder", type=str, 
-                        default="/home/msi/Desktop/BMLhandballxx/",
+                        default="/home/msi/Desktop/CMU",
                         help="Target directory for SMPL-X .npz files")
     
     parser.add_argument("--input_file", type=str, help="Single input SMPL .npz file")

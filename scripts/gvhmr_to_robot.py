@@ -11,7 +11,6 @@ from general_motion_retargeting.utils.smpl import load_gvhmr_pred_file, get_gvhm
 from general_motion_retargeting.kinematics_model import KinematicsModel
 
 from rich import print
-from tools import axis_angle_from_quat, quat_conjugate, quat_mul
 import torch
 import joblib
 import termios
@@ -19,22 +18,6 @@ import sys
 import select
 import tty
 
-
-def _so3_derivative(rotations: torch.Tensor, dt: float) -> torch.Tensor:
-    """Computes the derivative of a sequence of SO3 rotations.
-
-    Args:
-        rotations: shape (B, 4).
-        dt: time step.
-    Returns:
-        shape (B, 3).
-    """
-    q_prev, q_next = rotations[:-2], rotations[2:]
-    q_rel = quat_mul(q_next, quat_conjugate(q_prev))  # shape (B−2, 4)
-
-    omega = axis_angle_from_quat(q_rel) / (2.0 * dt)  # shape (B−2, 3)
-    omega = torch.cat([omega[:1], omega, omega[-1:]], dim=0)  # repeat first and last sample
-    return omega
 
 
 if __name__ == "__main__":
@@ -47,7 +30,7 @@ if __name__ == "__main__":
         help="SMPLX motion file to load.",
         type=str,
         # required=True,
-        default="/home/msi/Desktop/GVHMR/outputs/demo/ikun/hmr4d_results.pt",
+        default="/home/msi/Desktop/GVHMR/outputs/demo/turn_r/hmr4d_results.pt",
     )
     
     parser.add_argument(
@@ -58,7 +41,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_motion_start_end",
-        default=[0, 60],
+        default=[20, 100],
         help="Whether to save a slice of the robot motion.",
     )
     
@@ -76,7 +59,7 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--save_as_csv", 
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as csv format.",
     )
     
@@ -91,16 +74,17 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02", "atom01msver"],
-        # default="roboparty_atom01",
-        default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long","roboparty_atom02", "atom01msver"],
+        default="roboparty_atom01_long",
+        # default="roboparty_atom02",
         # default="unitree_g1",
         # default="atom01msver",
     )
     
+    args_cli = parser.parse_args()
     parser.add_argument(
         "--save_path",
-        default="single_data",
+        default=f"{args_cli.robot}_tgt",
         help="Path to save the robot motion.",
     )
     
@@ -241,6 +225,11 @@ if __name__ == "__main__":
 
             # retarget
             qpos = retarget.retarget(smplx_data)
+            # qpos[26] = qpos[26] + 0.1
+            # qpos[21] = qpos[21] - 0.1
+            # qpos[25] = qpos[25] - 0.3
+            # qpos[20] = qpos[20] - 0.3
+
 
             # visualize
             robot_motion_viewer.step(
@@ -388,21 +377,18 @@ if __name__ == "__main__":
 
         # Compute velocities
         dof_vel = torch.gradient(torch.from_numpy(dof_pos).float(), spacing=1/tgt_fps, dim=0)[0]
-        body_lin_vel_w = torch.gradient(body_pos, spacing=1/tgt_fps, dim=0)[0]
-        body_ang_vel_w = _so3_derivative(rotations=body_rot, dt=1/tgt_fps)
-
         motion_data = {
             "fps": tgt_fps,
             "root_pos": root_pos,
             "root_rot": root_rot,
-            "dof_names": dof_names,
-            "body_names": body_names,
+            # "dof_names": dof_names,
+            # "body_names": body_names,
             # "link_body_list": body_names,
             "dof_positions": dof_pos,
             "dof_pos": dof_pos,
-            "body_positions": body_pos,
-            "local_body_pos": body_pos,
-            "body_rotations": body_rot,
+            # "body_positions": body_pos,
+            # "local_body_pos": body_pos,
+            # "body_rotations": body_rot,
             
             # dataset for beyond mimic
             "joint_names": dof_names,
@@ -410,12 +396,10 @@ if __name__ == "__main__":
             "joint_vel": dof_vel,
             "body_pos_w": root_pos,
             "body_quat_w": root_rot,
-            "body_lin_vel_w": body_lin_vel_w,
-            "body_ang_vel_w": body_ang_vel_w,
         }
         
-        print("dof names:", motion_data["dof_names"])
-        print("body names:", motion_data["body_names"])
+        print("dof names:", dof_names)
+        print("body names:", body_names)
         print("saving motion data...")
 
             
@@ -446,7 +430,9 @@ if __name__ == "__main__":
                     out[k] = v
             return out
 
-        base_name = os.path.splitext(os.path.basename(args.gvhmr_pred_file))[0]
+        # Use the parent directory name of the gvhmr_pred_file as the base filename
+        # e.g., /.../huishou/hmr4d_results.pt -> base_name = 'huishou'
+        base_name = os.path.basename(os.path.dirname(args.gvhmr_pred_file))
         base_no_ext = os.path.join(args.save_path, base_name)
         npz_path = base_no_ext + ".npz"
         pkl_path = base_no_ext + ".pkl"

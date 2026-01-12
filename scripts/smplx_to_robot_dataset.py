@@ -106,7 +106,7 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        ground_offset = 0.02
+        ground_offset = 0.05
         # lowerst_height = torch.min(body_pos[..., 2]).item()
         # root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
         root_pos[:, 2] = root_pos[:, 2] + ground_offset # make sure motion on the ground
@@ -231,12 +231,22 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--robot", default="unitree_g1")
+    parser.add_argument(
+        "--robot",
+        choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
+                 "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
+                "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02", "atom01msver"],
+        # default="roboparty_atom01",
+        default="roboparty_atom02",
+        # default="unitree_g1",
+        # default="atom01msver",
+    )
     parser.add_argument("--src_folder", type=str,
-                        default="/home/msi/Desktop/ACCAD",
+                        default="src_folder",
                         )
     parser.add_argument("--tgt_folder", type=str,
-                        default="/home/msi/Desktop/ACCAD_retarget_data",
+                        default="atom02_tgt",
                         )
     
     parser.add_argument("--override", default=True, action="store_true")

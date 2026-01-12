@@ -7,14 +7,14 @@
     "use_ik_match_table2": true,
     "human_scale_table": {
         "Hips": 0.8,
-        "Spine": 0.8,
+        "Spine1": 0.8,
 
         "LeftUpLeg": 0.8,
         "RightUpLeg": 0.8,
         "LeftLeg": 0.8,
         "RightLeg": 0.8,
-        "LeftFoot": 0.8,
-        "RightFoot": 0.8,
+        "LeftFootMod": 0.8,
+        "RightFootMod": 0.8,
 
         "LeftArm": 0.6,
         "RightArm": 0.6,
@@ -74,7 +74,7 @@
             ]
         ],
         "left_ankle_pitch_link": [
-            "LeftFoot",
+            "LeftFootMod",
             50,
             10,
             [
@@ -122,7 +122,7 @@
             ]
         ],
         "right_ankle_pitch_link": [
-            "RightFoot",
+            "RightFootMod",
             50,
             10,
             [
@@ -138,7 +138,7 @@
             ]
         ],
         "torso_link": [
-            "Spine",
+            "Spine1",
             0,
             100,
             [
@@ -300,7 +300,7 @@
             ]
         ],
         "left_ankle_pitch_link": [
-            "LeftFoot",
+            "LeftFootMod",
             50,
             10,
             [
@@ -348,7 +348,7 @@
             ]
         ],
         "right_ankle_pitch_link": [
-            "RightFoot",
+            "RightFootMod",
             50,
             10,
             [
@@ -364,7 +364,7 @@
             ]
         ],
         "torso_link": [
-            "Spine",
+            "Spine1",
             0,
             10,
             [

@@ -42,6 +42,18 @@ data/
 data_record/
 Download/
 assets/body_models/
+atom01_long_tgt/
+atom01_tgt/
+atom02_tgt/
+roboparty_atom01_long_tgt/
+roboparty_atom02_tgt/
+single_data/
+src_folders/
+videos/
+
+# Data files
+*.csv
+*.pkl
 
 # Media files
 *.mp4

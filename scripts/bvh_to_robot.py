@@ -43,7 +43,7 @@ if __name__ == "__main__":
         "--bvh_file",
         help="BVH motion file to load.",
         # required=True,
-        default="/home/msi/Desktop/lafan1/dance1_subject2.bvh",
+        default="/home/msi/Desktop/lafan1/walk1_subject2.bvh",
         # default="/home/msi/Desktop/lafan1/run1_subject5.bvh",
         type=str,
     )
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--save_as_csv", 
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as csv format.",
     )
     
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--robot",
         choices=["unitree_g1", "unitree_g1_with_hands", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01","roboparty_atom01"],
-        # default="roboparty_atom01",
-        default="roboparty_atom02",
+        default="roboparty_atom01",
+        # default="roboparty_atom02",
         # default="unitree_g1",
         # default="engineai_pm01",
     )
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--record_video",
         action="store_true",
-        default=True,
+        default=False,
     )
 
     parser.add_argument(
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--rate_limit",
         action="store_true",
-        default=True,
+        default=False,
     )
 
     parser.add_argument(

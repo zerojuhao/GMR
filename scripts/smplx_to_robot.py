@@ -5,6 +5,7 @@ import os
 import time
 
 import numpy as np
+from sympy import false, true
 
 from general_motion_retargeting import GeneralMotionRetargeting as GMR
 from general_motion_retargeting import RobotMotionViewer
@@ -32,26 +33,36 @@ if __name__ == "__main__":
         # required=True,
         
         # stand 1
-        # default="/home/msi/Desktop/ACCAD/Male2General_c3d/A1-_Stand_stageii.npz", # 站立不动
+        default="/home/msi/Desktop/ACCAD/Male2General_c3d/A1-_Stand_stageii.npz", # 站立不动
 
+        
         # male1 walk 2
+        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B10_-_Walk_turn_left_45_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B13_-_Walk_turn_right_45_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B15_-_Walk_turn_around_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B16_-_Walk_turn_change_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B22_-_Side_step_left_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B23_-_Side_step_right_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B13_-_Walk_turn_right_45_stageii.npz",
         
         # male2 walk 9
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B4_-_Stand_to_Walk_backwards_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B9_-__Walk_turn_left_90_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B10_-__Walk_turn_left_45_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B13_-__Walk_turn_right_90_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz", 
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B15_-__Walk_turn_around_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B22_-__side_step_left_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B23_-__side_step_right_stageii.npz",
         
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B5_-__Walk_backwards_stageii.npz", # 需要截断开头的数据
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B11_-__Walk_turn_left_135_stageii.npz", # 需要截断末尾的数据
+        
+
 
         # male2 run 8
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C1_-_stand_to_run_stageii.npz",
-        default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C3_-_run_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C3_-_run_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_a_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C5_-_walk_to_run_stageii.npz",
@@ -59,35 +70,40 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C15_-_run_turn_right_45_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz",
         
+        # default="/home/msi/Desktop/ACCAD/Male2MartialArtsStances_c3d/D2_-_walk_to_ready_stageii.npz",
+
         
         # CMU motion
-        
-        # default="/home/msi/Desktop/CMU_smplx/36/36_02_stageii.npz", # 走路 右转慢转身
-        # default="/home/msi/Desktop/CMU_smplx/36/36_03_stageii.npz", # 走路 右转慢转身
-        # default="/home/msi/Desktop/CMU_smplx/36/36_09_stageii.npz", # 小步走 跨步 慢转身
-        
-        # default="/home/msi/Desktop/CMU_smplx/127/127_15_stageii.npz", # 跑步 左转 停下
-        # default="/home/msi/Desktop/CMU_smplx/127/127_16_stageii.npz", # 跑步 右转 停下
-        
-        # default="/home/msi/Desktop/CMU_smplx/127/127_03_stageii.npz", # 跑步
-        # default="/home/msi/Desktop/CMU_smplx/127/127_04_stageii.npz", # walk to run
-        
-        # default="/home/msi/Desktop/CMU_smplx/127/127_06_stageii.npz",
-        # default="/home/msi/Desktop/CMU_smplx/127/127_09_stageii.npz", # Run Right
-        # default="/home/msi/Desktop/CMU_smplx/127/127_11_stageii.npz", # Run Left
-        # default="/home/msi/Desktop/CMU_smplx/127/127_15_stageii.npz", # Run Left
-        # default="/home/msi/Desktop/CMU_smplx/127/127_16_stageii.npz", # Run Right
-        # default="/home/msi/Desktop/CMU_smplx/127/127_18_stageii.npz", # Run Stop Run
-        # default="/home/msi/Desktop/CMU_smplx/143/143_02_stageii.npz", # Run to Stop
-        # default="/home/msi/Desktop/CMU_smplx/143/143_03_stageii.npz", # Start to Run
-        
-        
-        # default="/home/msi/Desktop/CMU_smplx/88/88_05_stageii.npz", # 侧翻+空翻
+        # default="/home/msi/Desktop/CMU/02/02_02.npz", # walk
+        # default="/home/msi/Desktop/CMU/16/16_34.npz", # walk stop
 
-        # default="/home/msi/Desktop/CMU_smplx/77/77_28_stageii.npz", # 慢走 轻轻走
+        
+        # default="/home/msi/Desktop/CMU/36/36_02_stageii.npz", # 走路 右转慢转身
+        # default="/home/msi/Desktop/CMU/36/36_03_stageii.npz", # 走路 右转慢转身
+        # default="/home/msi/Desktop/CMU/36/36_09_stageii.npz", # 小步走 跨步 慢转身
+        
+        # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # 跑步 左转 停下
+        # default="/home/msi/Desktop/CMU/127/127_16_stageii.npz", # 跑步 右转 停下
+        
+        # default="/home/msi/Desktop/CMU/127/127_03.npz", # stand to 跑步
+        # default="/home/msi/Desktop/CMU/127/127_04.npz", # walk to run
+        
+        # default="/home/msi/Desktop/CMU/127/127_06.npz", # run
+        # default="/home/msi/Desktop/CMU/127/127_09.npz", # Run Right
+        # default="/home/msi/Desktop/CMU/127/127_11.npz", # Run Left
+        # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # Run Left
+        # default="/home/msi/Desktop/CMU/127/127_16_stageii.npz", # Run Right
+        # default="/home/msi/Desktop/CMU/127/127_18.npz", # Run Stop Run
+        # default="/home/msi/Desktop/CMU/143/143_02.npz", # Run to Stop
+        # default="/home/msi/Desktop/CMU/143/143_03.npz", # Start to Run
+        
+        
+        # default="/home/msi/Desktop/CMU/88/88_05.npz", # 侧翻+空翻
+        # default="/home/msi/Desktop/ACCAD/Female1Gestures_c3d/D6-_CartWheel_stageii.npz", 
         
         # default="/home/msi/Desktop/ACCAD/Male2MartialArtsKicks_c3d/G8_-__roundhouse_left_stageii.npz",
         # default="/home/msi/Desktop/BMLhandball/S01_ExpertXXXX/Trial_upper_left_033_poses.npz",
+        
         
         )
    
@@ -99,13 +115,13 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_motion_start_end",
-        default=[0, 700],
+        default=[80, 180],
         help="Whether to save a slice of the robot motion.",
     )
 
     parser.add_argument(
         "--save_as_pkl",
-        default=False, # True or False
+        default=True, # True or False
         help="whether to save the robot motion as pkl format.",
     )
 
@@ -132,16 +148,16 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02", "atom01msver"],
-        # default="roboparty_atom01",
-        default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long","roboparty_atom02", "atom01msver"],
+        default="roboparty_atom01_long",
+        # default="roboparty_atom02",
         # default="unitree_g1",
         # default="atom01msver",
     )
-    
+    args_cli = parser.parse_args()
     parser.add_argument(
         "--save_path",
-        default="retarget_data",
+        default=f"{args_cli.robot}_tgt",
         help="Path to save the robot motion.",
     )
     
@@ -154,7 +170,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--record_video",
-        default=True,
+        default=False,
         action="store_true",
         help="Record the video.",
     )
@@ -283,7 +299,12 @@ if __name__ == "__main__":
 
             # 获取机器人对应连杆名称列表
             robot_frames = retargeter.ik_match_table1.keys()
-            
+        
+            # qpos[26] = qpos[26] + 0.1
+            # qpos[21] = qpos[21] - 0.1
+            # qpos[25] = qpos[25] - 0.1
+            # qpos[20] = qpos[20] - 0.1
+
             # visualize
             robot_motion_viewer.step(
                 root_pos=qpos[:3],
@@ -338,10 +359,10 @@ if __name__ == "__main__":
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        ground_offset = 0.02
-        # lowerst_height = torch.min(body_pos[..., 2]).item()
+        ground_offset = -0.05
+        # ground_offset = torch.min(body_pos[..., 2]).item()
         # root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
-        root_pos[:, 2] = root_pos[:, 2] + ground_offset # make sure motion on the ground
+        root_pos[:, 2] = root_pos[:, 2] - ground_offset # make sure motion on the ground
         
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:

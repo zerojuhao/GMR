@@ -11,14 +11,14 @@
         xyz="0.0426945929688825 0.00148737267167587 -0.0241809712463922"
         rpy="0 0 0" />
       <mass
-        value="0.726960641971639" />
+        value="3.23595958" />
       <inertia
-        ixx="0.00202387675557671"
-        ixy="-2.18611654062212E-08"
-        ixz="1.2130451382306E-05"
-        iyy="0.00164792867318008"
-        iyz="3.54546390126014E-08"
-        izz="0.000708359308471812" />
+        ixx="0.01504054"
+        ixy="0.00048618"
+        ixz="-0.00504802"
+        iyy="0.01750647"
+        iyz="-0.00034172"
+        izz="0.01820607" />
     </inertial>
     <visual>
       <origin
@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/base_link.STL" />
+          filename="../meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/base_link.STL" />
+          filename="../meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -51,14 +51,14 @@
         xyz="0.00433081783795993 -0.00846409127354864 1.15359525446057E-05"
         rpy="0 0 0" />
       <mass
-        value="0.556662079227767" />
+        value="1.45950912" />
       <inertia
-        ixx="0.000782365302350768"
-        ixy="4.84873446155365E-06"
-        ixz="-3.09593908313517E-07"
-        iyy="0.000621188365116633"
-        iyz="-4.21109567583539E-07"
-        izz="0.000491343788931523" />
+        ixx="0.00636828"
+        ixy="0.00082521"
+        ixz="0.00001676"
+        iyy="0.00186447"
+        iyz="0.00003711"
+        izz="0.00614137" />
     </inertial>
     <visual>
       <origin
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_pitch_link.STL" />
+          filename="../meshes/left_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -80,7 +80,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_pitch_link.STL" />
+          filename="../meshes/left_thigh_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -109,14 +109,14 @@
         xyz="0.00427363423171547 -0.0040249982403292 -0.0129865815538047"
         rpy="0 0 0" />
       <mass
-        value="2.90711030732957" />
+        value="1.90711030732957" />
       <inertia
-        ixx="0.00529561668892011"
-        ixy="1.18984962329085E-05"
-        ixz="0.000407694401000354"
-        iyy="0.0047953710862394"
-        iyz="6.0170982434569E-05"
-        izz="0.00380163050510438" />
+        ixx="0.02253575"
+        ixy="0.00000925"
+        ixz="0.00211972"
+        iyy="0.02267290"
+        iyz="0.00007777"
+        izz="0.00306051" />
     </inertial>
     <visual>
       <origin
@@ -124,7 +124,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_roll_link.STL" />
+          filename="../meshes/left_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -138,7 +138,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_roll_link.STL" />
+          filename="../meshes/left_thigh_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -167,14 +167,14 @@
         xyz="-0.00897791991505894 0.000916285170142084 -0.313717683033613"
         rpy="0 0 0" />
       <mass
-        value="25.7162947988607" />
+        value="2.32668441" />
       <inertia
-        ixx="0.0948506509369848"
-        ixy="-4.16548066779511E-06"
-        ixz="0.00299006504700362"
-        iyy="0.103244360790178"
-        iyz="-1.21228452751151E-05"
-        izz="0.0359272387743077" />
+        ixx="0.05527065"
+        ixy="0.00022496"
+        ixz="0.00609411"
+        iyy="0.05610703"
+        iyz="0.00147990"
+        izz="0.00449839" />
     </inertial>
     <visual>
       <origin
@@ -182,7 +182,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_yaw_link.STL" />
+          filename="../meshes/left_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -196,7 +196,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_thigh_yaw_link.STL" />
+          filename="../meshes/left_thigh_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -225,14 +225,14 @@
         xyz="0.0180038551048904 4.27446807210741E-06 0.143728685313681"
         rpy="0 0 0" />
       <mass
-        value="27.435138431354" />
+        value="2.18421456" />
       <inertia
-        ixx="0.19109647690543"
-        ixy="-4.290950553685E-06"
-        ixz="0.0204951326710817"
-        iyy="0.193676714103819"
-        iyz="1.89041075890612E-06"
-        izz="0.0357972120863498" />
+        ixx="0.06382030"
+        ixy="0.00136231"
+        ixz="-0.00604208"
+        iyy="0.06250280"
+        iyz="-0.00998488"
+        izz="0.00564158" />
     </inertial>
     <visual>
       <origin
@@ -240,7 +240,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_knee_link.STL" />
+          filename="../meshes/left_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -254,7 +254,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_knee_link.STL" />
+          filename="../meshes/left_knee_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -283,14 +283,14 @@
         xyz="-0.000916659331079805 2.3285817718488E-12 -0.0142487687135151"
         rpy="0 0 0" />
       <mass
-        value="0.177201152706737" />
+        value="0.22519575" />
       <inertia
-        ixx="3.70740830561522E-05"
-        ixy="-5.23209475072894E-15"
-        ixz="1.17792095942394E-06"
-        iyy="4.4848581605785E-05"
-        iyz="1.79864768166072E-15"
-        izz="2.57294694712308E-05" />
+        ixx="0.00008717"
+        ixy="0.00000000"
+        ixz="0.00000141"
+        iyy="0.00008949"
+        iyz="0.00000000"
+        izz="0.00003727" />
     </inertial>
     <visual>
       <origin
@@ -298,7 +298,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_ankle_pitch_link.STL" />
+          filename="../meshes/left_ankle_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -312,7 +312,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_ankle_pitch_link.STL" />
+          filename="../meshes/left_ankle_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -341,14 +341,14 @@
         xyz="0.029826 5.0235E-08 -0.032259"
         rpy="0 0 0" />
       <mass
-        value="1.3391" />
+        value="0.58290878" />
       <inertia
-        ixx="0.00060191"
-        ixy="-1.1137E-08"
-        ixz="-9.5275E-06"
-        iyy="0.0043523"
-        iyz="-1.3617E-09"
-        izz="0.0048758" />
+        ixx="0.00066194"
+        ixy="0.00000000"
+        ixz="-0.00037265"
+        iyy="0.00212616"
+        iyz="0.00000000"
+        izz="0.00177612" />
     </inertial>
     <visual>
       <origin
@@ -356,7 +356,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_ankle_roll_link.STL" />
+          filename="../meshes/left_ankle_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -370,7 +370,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_ankle_roll_link.STL" />
+          filename="../meshes/left_ankle_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -393,20 +393,20 @@
       velocity="12" />
   </joint>
   <link
-    name="right _thigh_pitch_link">
+    name="right_thigh_pitch_link">
     <inertial>
       <origin
         xyz="0.00433081783180763 0.0084662133507678 4.58152789528654E-06"
         rpy="0 0 0" />
       <mass
-        value="0.556662079541713" />
+        value="1.44712395" />
       <inertia
-        ixx="0.000782365302456949"
-        ixy="-4.88129816265433E-06"
-        ixz="6.22344602989384E-08"
-        iyy="0.000621131039483757"
-        iyz="-2.07985201226261E-07"
-        izz="0.000491401114699619" />
+        ixx="0.00635258"
+        ixy="-0.00079426"
+        ixz="0.00001469"
+        iyy="0.00184533"
+        iyz="-0.00002816"
+        izz="0.00611154" />
     </inertial>
     <visual>
       <origin
@@ -414,7 +414,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right _thigh_pitch_link.STL" />
+          filename="../meshes/right_thigh_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -428,12 +428,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right _thigh_pitch_link.STL" />
+          filename="../meshes/right_thigh_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="right _thigh_pitch_joint"
+    name="right_thigh_pitch_joint"
     type="revolute">
     <origin
       xyz="0.043915 -0.1256 -0.036743"
@@ -441,7 +441,7 @@
     <parent
       link="base_link" />
     <child
-      link="right _thigh_pitch_link" />
+      link="right_thigh_pitch_link" />
     <axis
       xyz="0 -1 0" />
     <limit
@@ -457,14 +457,14 @@
         xyz="0.00428556068904451 0.00402674942751025 -0.012964969034475"
         rpy="0 0 0" />
       <mass
-        value="2.90779917980452" />
+        value="1.91914876" />
       <inertia
-        ixx="0.00530370686611715"
-        ixy="-1.1623698905934E-05"
-        ixz="0.000409588470871039"
-        iyy="0.00480376256189392"
-        iyz="-6.02730534140875E-05"
-        izz="0.00380179640828706" />
+        ixx="0.02217446"
+        ixy="-0.00002035"
+        ixz="0.00214489"
+        iyy="0.02233629"
+        iyz="0.00000733"
+        izz="0.00316980" />
     </inertial>
     <visual>
       <origin
@@ -472,7 +472,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_thigh_roll_link.STL" />
+          filename="../meshes/right_thigh_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -486,7 +486,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_thigh_roll_link.STL" />
+          filename="../meshes/right_thigh_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -497,7 +497,7 @@
       xyz="0 0 0"
       rpy="0 0 0" />
     <parent
-      link="right _thigh_pitch_link" />
+      link="right_thigh_pitch_link" />
     <child
       link="right_thigh_roll_link" />
     <axis
@@ -515,14 +515,14 @@
         xyz="-0.00941357789851324 -2.7930899234585E-06 -0.324209334803403"
         rpy="0 0 0" />
       <mass
-        value="24.4949645811454" />
+        value="2.32668364" />
       <inertia
-        ixx="0.0942870987620172"
-        ixy="-3.00173897077374E-07"
-        ixz="0.00299021442043283"
-        iyy="0.102194221967935"
-        iyz="5.6993784052523E-07"
-        izz="0.035073890298566" />
+        ixx="0.05532166"
+        ixy="-0.00022101"
+        ixz="0.00616549"
+        iyy="0.05617178"
+        iyz="-0.00149921"
+        izz="0.00451460" />
     </inertial>
     <visual>
       <origin
@@ -530,7 +530,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_thigh_yaw_link.STL" />
+          filename="../meshes/right_thigh_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -544,7 +544,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_thigh_yaw_link.STL" />
+          filename="../meshes/right_thigh_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -573,14 +573,14 @@
         xyz="0.0180136963898656 7.09786177399696E-06 0.143609725581421"
         rpy="0 0 0" />
       <mass
-        value="27.4495729659464" />
+        value="2.16342478" />
       <inertia
-        ixx="0.191172165911197"
-        ixy="1.40710512874106E-06"
-        ixz="0.0205239387267881"
-        iyy="0.193764156123475"
-        iyz="-1.02237833463407E-05"
-        izz="0.0358156541442356" />
+        ixx="0.06328279"
+        ixy="-0.00135632"
+        ixz="-0.00604122"
+        iyy="0.06198315"
+        iyz="0.00989178"
+        izz="0.00561077" />
     </inertial>
     <visual>
       <origin
@@ -588,7 +588,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_knee_link.STL" />
+          filename="../meshes/right_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -602,7 +602,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_knee_link.STL" />
+          filename="../meshes/right_knee_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -631,14 +631,14 @@
         xyz="-0.000916659331045119 2.32158736679366E-12 -0.0142487568081484"
         rpy="0 0 0" />
       <mass
-        value="0.177201152706736" />
+        value="0.22519575" />
       <inertia
-        ixx="3.70740830561518E-05"
-        ixy="-5.23215276385148E-15"
-        ixz="1.17792095942402E-06"
-        iyy="4.48485816057848E-05"
-        iyz="1.79859281199177E-15"
-        izz="2.57294694712304E-05" />
+        ixx="0.00008717"
+        ixy="0.00000000"
+        ixz="0.00000141"
+        iyy="0.00008949"
+        iyz="0.00000000"
+        izz="0.00003727" />
     </inertial>
     <visual>
       <origin
@@ -646,7 +646,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_ankle_pitch_link.STL" />
+          filename="../meshes/right_ankle_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -660,7 +660,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_ankle_pitch_link.STL" />
+          filename="../meshes/right_ankle_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -689,14 +689,14 @@
         xyz="0.0298256266559766 6.51135200202546E-08 -0.0322592152687466"
         rpy="0 0 0" />
       <mass
-        value="1.33912671571889" />
+        value="0.58290878" />
       <inertia
-        ixx="0.000601912403193443"
-        ixy="-9.82857114748159E-09"
-        ixz="-9.52772393276571E-06"
-        iyy="0.00435229320915341"
-        iyz="-1.25268333426509E-09"
-        izz="0.00487576266166189" />
+        ixx="0.00066194"
+        ixy="0.00000000"
+        ixz="-0.00037265"
+        iyy="0.00212616"
+        iyz="0.00000000"
+        izz="0.00177612" />
     </inertial>
     <visual>
       <origin
@@ -704,7 +704,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_ankle_roll_link.STL" />
+          filename="../meshes/right_ankle_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -718,7 +718,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_ankle_roll_link.STL" />
+          filename="../meshes/right_ankle_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -747,14 +747,14 @@
         xyz="0 0 0"
         rpy="0 0 0" />
       <mass
-        value="0" />
+        value="1.50165300" />
       <inertia
-        ixx="0"
-        ixy="0"
-        ixz="0"
-        iyy="0"
-        iyz="0"
-        izz="0" />
+        ixx="0.00215606"
+        ixy="0.00000396"
+        ixz="-0.00024047"
+        iyy="0.00298480"
+        iyz="0.00001154"
+        izz="0.00282389" />
     </inertial>
     <visual>
       <origin
@@ -762,7 +762,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/torso_roll_link.STL" />
+          filename="../meshes/torso_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -776,7 +776,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/torso_roll_link.STL" />
+          filename="../meshes/torso_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -805,14 +805,14 @@
         xyz="0.00399050743843777 6.70363075697678E-05 0.223190244062931"
         rpy="0 0 0" />
       <mass
-        value="0.905363139813927" />
+        value="6.55523381" />
       <inertia
-        ixx="0.00822642022946719"
-        ixy="-1.6191173943688E-06"
-        ixz="-7.9916203078537E-05"
-        iyy="0.00354591213040369"
-        iyz="-5.19825654039179E-06"
-        izz="0.00596383132405531" />
+        ixx="0.15614275"
+        ixy="-0.00002117"
+        ixz="-0.00127811"
+        iyy="0.14089775"
+        iyz="0.00017619"
+        izz="0.02788566" />
     </inertial>
     <visual>
       <origin
@@ -820,7 +820,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/torso_yaw_link.STL" />
+          filename="../meshes/torso_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -834,7 +834,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/torso_yaw_link.STL" />
+          filename="../meshes/torso_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -863,14 +863,14 @@
         xyz="0.00572283416827034 0.133486264130114 0.00569460380518322"
         rpy="0 0 0" />
       <mass
-        value="0.281602434591795" />
+        value="0.68492195" />
       <inertia
-        ixx="0.000412006547613336"
-        ixy="-1.07288385707546E-06"
-        ixz="-3.03710919984189E-07"
-        iyy="0.000182373831409038"
-        iyz="4.94990634799294E-06"
-        izz="0.000281147944048875" />
+        ixx="0.00232037"
+        ixy="0.00007858"
+        ixz="0.00000491"
+        iyy="0.00047561"
+        iyz="0.00007987"
+        izz="0.00234234" />
     </inertial>
     <visual>
       <origin
@@ -878,7 +878,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_pitch_link.STL" />
+          filename="../meshes/left_shoulder_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -892,7 +892,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_pitch_link.STL" />
+          filename="../meshes/left_shoulder_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -921,14 +921,14 @@
         xyz="0.00952001146745127 0.00560131858747742 -0.0306561060367536"
         rpy="0 0 0" />
       <mass
-        value="0.294057859644599" />
+        value="0.69553781" />
       <inertia
-        ixx="0.000390032105174833"
-        ixy="-2.66618039094026E-06"
-        ixz="1.50348658021525E-05"
-        iyy="0.000304469239672062"
-        iyz="-2.38150666516615E-05"
-        izz="0.00018383870032529" />
+        ixx="0.00344143"
+        ixy="0.00012423"
+        ixz="0.00109614"
+        iyy="0.00398959"
+        iyz="-0.00028597"
+        izz="0.00113255" />
     </inertial>
     <visual>
       <origin
@@ -936,7 +936,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_roll_link.STL" />
+          filename="../meshes/left_shoulder_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -950,7 +950,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_roll_link.STL" />
+          filename="../meshes/left_shoulder_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -979,14 +979,14 @@
         xyz="0.000183998490163938 -0.00664702098894654 -0.159902602188587"
         rpy="0 0 0" />
       <mass
-        value="0.570014294886847" />
+        value="1.01870173" />
       <inertia
-        ixx="0.00149682899623023"
-        ixy="3.92892164831408E-06"
-        ixz="-3.06798300426846E-05"
-        iyy="0.00167749778136823"
-        iyz="-8.23735773828494E-06"
-        izz="0.000272369677137707" />
+        ixx="0.01118753"
+        ixy="0.00001870"
+        ixz="-0.00056633"
+        iyy="0.01115937"
+        iyz="-0.00024166"
+        izz="0.00081546" />
     </inertial>
     <visual>
       <origin
@@ -994,7 +994,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_yaw_link.STL" />
+          filename="../meshes/left_shoulder_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1008,7 +1008,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_shoulder_yaw_link.STL" />
+          filename="../meshes/left_shoulder_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1037,14 +1037,14 @@
         xyz="0.0444173770841133 -0.0083983002628778 -0.0104099602928093"
         rpy="0 0 0" />
       <mass
-        value="0.361375425050572" />
+        value="0.88600228" />
       <inertia
-        ixx="0.000213574714148864"
-        ixy="2.35420432033347E-05"
-        ixz="-4.37560859762815E-05"
-        iyy="0.000607968507095197"
-        iyz="-9.69493449550969E-06"
-        izz="0.000513128904322646" />
+        ixx="0.00318853"
+        ixy="-0.00198012"
+        ixz="-0.00033737"
+        iyy="0.00463900"
+        iyz="0.00022460"
+        izz="0.00712691" />
     </inertial>
     <visual>
       <origin
@@ -1052,7 +1052,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_elbow_pitch_link.STL" />
+          filename="../meshes/left_elbow_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1066,7 +1066,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_elbow_pitch_link.STL" />
+          filename="../meshes/left_elbow_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1095,14 +1095,14 @@
         xyz="0.227394242045541 -0.00540734423351369 0.00547955819471335"
         rpy="0 0 0" />
       <mass
-        value="1.41761671859828" />
+        value="0.23249655" />
       <inertia
-        ixx="0.000662617896691103"
-        ixy="-0.000107635270955381"
-        ixz="5.17111487502552E-05"
-        iyy="0.00127994618498875"
-        iyz="-5.04582284517391E-05"
-        izz="0.00115432102467012" />
+        ixx="0.00012284"
+        ixy="-0.00000164"
+        ixz="0.00004620"
+        iyy="0.00061106"
+        iyz="-0.00000022"
+        izz="0.00059711" />
     </inertial>
     <visual>
       <origin
@@ -1110,7 +1110,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_elbow_yaw_link.STL" />
+          filename="../meshes/left_elbow_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1124,12 +1124,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/left_elbow_yaw_link.STL" />
+          filename="../meshes/left_elbow_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="left_elbow_yaw_link"
+    name="left_elbow_yaw_joint"
     type="revolute">
     <origin
       xyz="0 0 -0.0133504827638016"
@@ -1153,14 +1153,14 @@
         xyz="-0.00567538717138532 -0.133486276497267 0.00569432899053771"
         rpy="0 0 0" />
       <mass
-        value="0.281602420918166" />
+        value="0.68494995" />
       <inertia
-        ixx="0.000412006544253427"
-        ixy="-1.07288233081776E-06"
-        ixz="3.03709981096843E-07"
-        iyy="0.000182373828204855"
-        iyz="-4.94990583578057E-06"
-        izz="0.000281147940789026" />
+        ixx="0.00232759"
+        ixy="-0.00008802"
+        ixz="0.00000210"
+        iyy="0.00047882"
+        iyz="-0.00008489"
+        izz="0.00235078" />
     </inertial>
     <visual>
       <origin
@@ -1168,7 +1168,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_pitch_link.STL" />
+          filename="../meshes/right_shoulder_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1182,7 +1182,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_pitch_link.STL" />
+          filename="../meshes/right_shoulder_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1211,14 +1211,14 @@
         xyz="-0.00952140798561743 -0.00560123236864984 -0.0306561043273919"
         rpy="0 0 0" />
       <mass
-        value="0.294057899511326" />
+        value="0.70646494" />
       <inertia
-        ixx="0.000390032147212152"
-        ixy="-2.66618980350727E-06"
-        ixz="-1.50348566378366E-05"
-        iyy="0.000304469261607127"
-        iyz="2.38150618379082E-05"
-        izz="0.000183838723976618" />
+        ixx="0.00346702"
+        ixy="0.00012320"
+        ixz="0.00111110"
+        iyy="0.00404638"
+        iyz="0.00028701"
+        izz="0.00116652" />
     </inertial>
     <visual>
       <origin
@@ -1226,7 +1226,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_roll_link.STL" />
+          filename="../meshes/right_shoulder_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -1240,7 +1240,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_roll_link.STL" />
+          filename="../meshes/right_shoulder_roll_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1269,14 +1269,14 @@
         xyz="0.000184500652539638 -0.00664702098052161 -0.160002971035617"
         rpy="0 0 0" />
       <mass
-        value="0.570014294602155" />
+        value="1.02101321" />
       <inertia
-        ixx="0.00149682825932246"
-        ixy="3.92902054373044E-06"
-        ixz="-3.06945292322289E-05"
-        iyy="0.00167749778106804"
-        iyz="-8.23731054290377E-06"
-        izz="0.00027237041374027" />
+        ixx="0.01119198"
+        ixy="-0.00000006"
+        ixz="-0.00058066"
+        iyy="0.01116463"
+        iyz="0.00003992"
+        izz="0.00081899" />
     </inertial>
     <visual>
       <origin
@@ -1284,7 +1284,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_yaw_link.STL" />
+          filename="../meshes/right_shoulder_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1298,12 +1298,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_shoulder_yaw_link.STL" />
+          filename="../meshes/right_shoulder_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="right_shoulder_yaw_link"
+    name="right_shoulder_yaw_joint"
     type="revolute">
     <origin
       xyz="0 -0.00647168056291525 0.000825647150946768"
@@ -1327,14 +1327,14 @@
         xyz="0.0444195121887475 -0.00839829362329991 -0.0105100533330512"
         rpy="0 0 0" />
       <mass
-        value="0.361375020829954" />
+        value="0.88408116" />
       <inertia
-        ixx="0.000213574435266451"
-        ixy="2.35419895901183E-05"
-        ixz="-4.37562568457589E-05"
-        iyy="0.000607968138695093"
-        iyz="-9.69501646389791E-06"
-        izz="0.000513128745828094" />
+        ixx="0.00136198"
+        ixy="0.00130205"
+        ixz="-0.00073590"
+        iyy="0.00467022"
+        iyz="-0.00026526"
+        izz="0.00510726" />
     </inertial>
     <visual>
       <origin
@@ -1342,7 +1342,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_elbow_pitch_link.STL" />
+          filename="../meshes/right_elbow_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -1356,7 +1356,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_elbow_pitch_link.STL" />
+          filename="../meshes/right_elbow_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -1385,14 +1385,14 @@
         xyz="0.227397964445097 0.00372300928214719 0.00537944992731798"
         rpy="0 0 0" />
       <mass
-        value="1.41764942980355" />
+        value="0.23249633" />
       <inertia
-        ixx="0.000662628361277761"
-        ixy="0.000109088640638669"
-        ixz="5.17056231400068E-05"
-        iyy="0.00128001486131448"
-        iyz="5.05793199532545E-05"
-        izz="0.00115438526790841" />
+        ixx="0.00011840"
+        ixy="0.00000110"
+        ixz="-0.00000236"
+        iyy="0.00054627"
+        iyz="0.00000005"
+        izz="0.00053677" />
     </inertial>
     <visual>
       <origin
@@ -1400,7 +1400,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_elbow_yaw_link.STL" />
+          filename="../meshes/right_elbow_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -1414,7 +1414,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://ATOM02/meshes/right_elbow_yaw_link.STL" />
+          filename="../meshes/right_elbow_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
