@@ -75,6 +75,7 @@ class KinematicsModel:
         
     def _build_kinematics_model(self):
         self._body_names = []
+        self._dof_names = []
         self._parent_indices = []
         self._local_translation = []
         self._local_rotation = []
@@ -122,14 +123,22 @@ class KinematicsModel:
             rot[..., 0:3] = rot[..., 1:]
             rot[..., 3] = rot_w
             
+            # 初始化joint相关变量
+            dof_names = []
+
             if body_index == 0:
                 curr_joint = Joint(name=body_name, dof_dim=0, axis=None) # root
+                # dof_names.append("floating_base_joint")  # 根据XML中的定义
             else:
                 curr_joints = xml_node.findall("joint")
                 num_joints = len(curr_joints)
                 if num_joints == 0:
                     curr_joint = Joint(name=body_name, dof_dim=0, axis=None)
                 elif num_joints == 1:
+
+                    dof_name = curr_joints[0].attrib.get("name")
+                    dof_names.append(dof_name)
+
                     _axis = np.fromstring(curr_joints[0].attrib.get("axis"), dtype=float, sep=" ")
                     axis = torch.from_numpy(_axis).to(self._device)
                     curr_joint = Joint(name=body_name, dof_dim=1, axis=axis)
@@ -140,6 +149,8 @@ class KinematicsModel:
                     axis = None
                     curr_joint = Joint(name=body_name, dof_dim=3, axis=axis)
                     for joint in curr_joints:
+                        dof_name = joint.attrib.get("name")
+                        dof_names.append(dof_name)
                         _dof_limits = np.fromstring(joint.attrib.get("range"), dtype=float, sep=" ")
                         self._dof_lower_limits.append(_dof_limits[0])
                         self._dof_upper_limits.append(_dof_limits[1])
@@ -147,6 +158,10 @@ class KinematicsModel:
                     raise ValueError(f"Invalid number of joints: {num_joints} of body: {body_name}")
             
             self._body_names.append(body_name)
+
+            for dof_name in dof_names:
+                self._dof_names.append(dof_name)
+
             self._parent_indices.append(parent_index)
             self._local_rotation.append(rot)
             self._local_translation.append(pos)
@@ -248,10 +263,18 @@ class KinematicsModel:
     def get_body_idx(self, body_name):
         return self._body_names.index(body_name)
     
+    def get_joint_idx(self, joint_name):
+        return self._dof_names.index(joint_name)
+
     @property
     def body_names(self):
         return self._body_names
     
+
+    @property
+    def dof_names(self):
+        return self._dof_names
+
     @property
     def num_dof(self):
         return self._num_dof

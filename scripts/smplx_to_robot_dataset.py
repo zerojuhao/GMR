@@ -4,14 +4,11 @@ import pathlib
 import os
 import multiprocessing as mp
 
-import mujoco as mj
 import numpy as np
 from scipy.spatial.transform import Rotation as R
-from tqdm import tqdm
 from natsort import natsorted
 from rich import print
 import torch
-import pickle
 
 from general_motion_retargeting import GeneralMotionRetargeting as GMR
 from general_motion_retargeting.utils.smpl import load_smplx_file, get_smplx_data_offline_fast
@@ -21,9 +18,9 @@ import gc
 import time
 import psutil
 import tracemalloc
+import joblib
 
-
-def check_memory(threshold_gb=30):  # adjust based on your available memory
+def check_memory(threshold_gb=1):  # adjust based on your available memory
     mem = psutil.virtual_memory()
     used_memory_gb = (mem.total - mem.available) / (1024 ** 3)
     available_memory_gb = mem.available / (1024 ** 3)
@@ -53,9 +50,9 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     num_pause = 0
     while check_memory():
         print(f"[PAUSE] Paused processing {smplx_file_path} to prevent memory overflow. num_pause: {num_pause}")
-        time.sleep(60*2)
+        time.sleep(20)
         num_pause += 1
-        if num_pause > 10:
+        if num_pause > 5:
             print(f"[ERROR] Memory usage is still high after 10 pauses. Exiting.")
             return
 
@@ -67,8 +64,8 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         print(f"Error loading {smplx_file_path}: {e}")
         return
     
-  
-    tgt_fps = 30
+    src_fps = smplx_data["mocap_frame_rate"].item()
+    tgt_fps = src_fps
     try:
         smplx_frame_data_list, aligned_fps = get_smplx_data_offline_fast(smplx_data, body_model, smplx_output, tgt_fps=tgt_fps)
     except Exception as e:
@@ -87,70 +84,134 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         qpos_list.append(qpos.copy())
 
     qpos_list = np.array(qpos_list)
-
     log_memory("After retargeting")
     
     device = "cuda:0"
+    # device = "cpu"  # 改为使用CPU设备
+    
     kinematics_model = KinematicsModel(retargeter.xml_file, device=device)
 
-    try:
-        root_pos = qpos_list[:, :3]
-    except Exception as e:
-        print(f"Error processing {smplx_file_path}: {e}")
-        return
+    root_pos = qpos_list[:, :3]
     root_rot = qpos_list[:, 3:7]
-    root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]]
+    root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]] # xyzw to wxyz
     dof_pos = qpos_list[:, 7:]
     num_frames = root_pos.shape[0]
 
-    fk_root_pos = torch.zeros((num_frames, 3), device=device)
-    fk_root_rot = torch.zeros((num_frames, 4), device=device)
-    fk_root_rot[:, -1] = 1.0
-
-    local_body_pos, _ = kinematics_model.forward_kinematics(
-        fk_root_pos, fk_root_rot, torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)
-    )
-
-    log_memory("After forward kinematics")
-
     body_names = kinematics_model.body_names
+    dof_names = kinematics_model.dof_names
     
     HEIGHT_ADJUST = True
     if HEIGHT_ADJUST:
         # height adjust to ensure the lowerset part is on the ground
-        body_pos, _ = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
+        body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        ground_offset = 0.0
-        lowerst_height = torch.min(body_pos[..., 2]).item()
-        root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
+        ground_offset = 0.02
+        # lowerst_height = torch.min(body_pos[..., 2]).item()
+        # root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
+        root_pos[:, 2] = root_pos[:, 2] + ground_offset # make sure motion on the ground
         
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
         # offset using the first frame
         root_pos[:, :2] -= root_pos[0, :2]
-        
-        
+
+    fk_root_pos = torch.zeros((num_frames, 3), device=device)
+    fk_root_rot = torch.zeros((num_frames, 4), device=device)
+    fk_root_rot[:, -1] = 1.0
+
+    local_body_pos, local_body_rot = kinematics_model.forward_kinematics(
+        fk_root_pos, fk_root_rot, torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)
+    )
+
+    log_memory("After forward kinematics")
+    
     motion_data = {
         "fps": aligned_fps,
         "root_pos": root_pos,
         "root_rot": root_rot,
+        "dof_names": dof_names,
+        "body_names": body_names,
+        # "link_body_list": body_names, # to be modified if needed in AMP(legged_lab)
+        "dof_positions": dof_pos,
         "dof_pos": dof_pos,
-        "local_body_pos": local_body_pos.detach().cpu().numpy(),
-        "link_body_list": body_names,
+        "body_positions": body_pos,
+        "body_rotations": body_rot,
+        "local_body_pos": body_pos,
     }
 
 
+    # helpers for saving in different formats
+    def to_numpy_compatible(d):
+        """Return a dict with numpy arrays / python scalars suitable for np.savez."""
+        out = {}
+        for k, v in d.items():
+            # torch tensor -> numpy
+            if isinstance(v, torch.Tensor):
+                out[k] = v.detach().cpu().numpy()
+            # numpy array -> keep
+            elif isinstance(v, np.ndarray):
+                out[k] = v
+            # list/tuple -> convert to numpy
+            elif isinstance(v, (list, tuple)):
+                try:
+                    out[k] = np.array(v)
+                except Exception:
+                    out[k] = np.array([str(v)])
+            # basic types (int/float/str/... including numpy scalar)
+            elif isinstance(v, (np.generic,)):
+                try:
+                    out[k] = np.array(v).tolist()
+                except Exception:
+                    out[k] = v
+            else:
+                out[k] = v
+        return out
+
     os.makedirs(os.path.dirname(tgt_file_path), exist_ok=True)
-    with open(tgt_file_path, "wb") as f:
-        pickle.dump(motion_data, f)
-        
-    # Progress print based on tgt_folder
-    done = 0
-    for root, _, files in os.walk(tgt_folder):
-        done += len([f for f in files if f.endswith('.pkl')])
-    print(f"Processed {done}/{total_files}: {tgt_file_path}")
+
+    base_no_ext = os.path.splitext(tgt_file_path)[0]
+    npz_path = base_no_ext + ".npz"
+    pkl_path = base_no_ext + ".pkl"
+    txt_path = base_no_ext + ".txt"
+    os.makedirs(os.path.dirname(npz_path), exist_ok=True)
+
+    # 准备 numpy-compatible dict
+    try:
+        npz_dict = to_numpy_compatible(motion_data)
+    except Exception as e:
+        print(f"[ERROR] Converting to numpy-compatible failed for {npz_path}: {e}")
+        npz_dict = {}
+
+    # 选择保存格式
+    PKL = True
+    NPZ = False
+    TXT = False
     
+    if NPZ:
+        # 1) 保存 npz
+        try:
+            np.savez_compressed(npz_path, **npz_dict)
+        except Exception as e:
+            print(f"[ERROR] Saving .npz failed for {npz_path}: {e}")
+            
+    if PKL:
+        # 2) 保存 pkl
+        try:
+            joblib.dump(npz_dict, pkl_path)
+        except Exception as _e:
+            print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
+
+    if TXT:
+        # 3) 保存 txt
+        try:
+            with open(txt_path, "w") as f:
+                for k, v in npz_dict.items():
+                    f.write(f"{k}: {v}\n")
+        except Exception as e:
+            print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
+            
+
     if verbose:
         # Get memory snapshot
         snapshot = tracemalloc.take_snapshot()
@@ -172,14 +233,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--robot", default="unitree_g1")
     parser.add_argument("--src_folder", type=str,
-                        required=True,
+                        default="/home/msi/Desktop/ACCAD",
                         )
     parser.add_argument("--tgt_folder", type=str,
-                        required=True,
+                        default="/home/msi/Desktop/ACCAD_retarget_data",
                         )
     
-    parser.add_argument("--override", default=False, action="store_true")
-    parser.add_argument("--num_cpus", default=4, type=int)
+    parser.add_argument("--override", default=True, action="store_true")
+    parser.add_argument("--num_cpus", default=2, type=int)
     args = parser.parse_args()
     
     # print the total number of cpus and gpus
@@ -215,7 +276,10 @@ def main():
                 continue
             if filename.endswith((".pkl", ".npz")):
                 smplx_file_path = os.path.join(dirpath, filename)
-                tgt_file_path = smplx_file_path.replace(src_folder, tgt_folder).replace(".npz", ".pkl")
+
+                rel_path = os.path.relpath(smplx_file_path, src_folder)
+                tgt_file_path = os.path.join(tgt_folder, rel_path)
+
                 if not os.path.exists(tgt_file_path) or args.override:
                     args_list.append((smplx_file_path, tgt_file_path, args.robot, SMPLX_FOLDER, tgt_folder))
     print("full args_list:", len(args_list))

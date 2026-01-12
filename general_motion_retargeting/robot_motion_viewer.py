@@ -80,6 +80,9 @@ class RobotMotionViewer:
 
         self.viewer.opt.flags[mj.mjtVisFlag.mjVIS_TRANSPARENT] = transparent_robot
         
+        self.viewer.cam.azimuth = 210    # 正面朝向机器人
+        
+        
         if self.record_video:
             assert video_path is not None, "Please provide video path for recording"
             self.video_path = video_path
@@ -93,6 +96,20 @@ class RobotMotionViewer:
             # Initialize renderer for video recording
             self.renderer = mj.Renderer(self.model, height=video_height, width=video_width)
         
+    def get_body_transform(self, body_name):
+        """获取指定身体的全局位置和旋转矩阵"""
+        try:
+            body_id = self.model.body(body_name).id
+            
+            # 获取身体位置和旋转
+            pos = self.data.xpos[body_id].copy()
+            mat = self.data.xmat[body_id].reshape(3, 3).copy()
+            
+            return pos, mat
+        except:
+            print(f"[Warning] Body '{body_name}' not found in the model")
+            return None, None
+        
     def step(self, 
             # robot data
             root_pos, root_rot, dof_pos, 
@@ -103,6 +120,9 @@ class RobotMotionViewer:
             human_point_scale=0.1,
             # human pos offset add for visualization    
             human_pos_offset=np.array([0.0, 0.0, 0]),
+            robot_frames=None,
+            show_robot_body_name=False,
+            robot_frame_scale=0.2,
             # rate limit
             rate_limit=True, 
             follow_camera=True,
@@ -127,7 +147,7 @@ class RobotMotionViewer:
             self.viewer.cam.lookat = self.data.xpos[self.model.body(self.robot_base).id]
             self.viewer.cam.distance = self.viewer_cam_distance
             self.viewer.cam.elevation = -10  # 正面视角，轻微向下看
-            # self.viewer.cam.azimuth = 180    # 正面朝向机器人
+            # self.viewer.cam.azimuth = 270    # 正面朝向机器人
         
         if human_motion_data is not None:
             # Clean custom geometry
@@ -141,6 +161,19 @@ class RobotMotionViewer:
                     human_point_scale,
                     pos_offset=human_pos_offset,
                     joint_name=human_body_name if show_human_body_name else None
+                    )
+
+        # Draw robot joint frames if requested
+        if robot_frames is not None:
+            for robot_body_name in robot_frames:
+                pos, mat = self.get_body_transform(robot_body_name)
+                if pos is not None and mat is not None:
+                    draw_frame(
+                        pos,
+                        mat,
+                        self.viewer,
+                        robot_frame_scale,
+                        joint_name=robot_body_name if show_robot_body_name else None
                     )
 
         self.viewer.sync()

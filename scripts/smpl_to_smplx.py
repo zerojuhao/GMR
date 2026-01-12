@@ -44,18 +44,38 @@ def convert_smpl_to_smplx(input_path, output_path, gender='neutral'):
     np.savez(output_path, **data_dict)
     print(f"Converted {input_path} to {output_path}")
 
+# def process_directory(src_folder, tgt_folder, gender='neutral'):
+#     os.makedirs(tgt_folder, exist_ok=True)
+#     for filename in tqdm(os.listdir(src_folder)):
+#         if filename.endswith('.npz'):
+#             input_path = os.path.join(src_folder, filename)
+#             output_path = os.path.join(tgt_folder, filename)
+#             convert_smpl_to_smplx(input_path, output_path, gender)
+
+
 def process_directory(src_folder, tgt_folder, gender='neutral'):
     os.makedirs(tgt_folder, exist_ok=True)
-    for filename in tqdm(os.listdir(src_folder)):
-        if filename.endswith('.npz'):
-            input_path = os.path.join(src_folder, filename)
-            output_path = os.path.join(tgt_folder, filename)
-            convert_smpl_to_smplx(input_path, output_path, gender)
-
+    for root, dirs, files in os.walk(src_folder):
+        for filename in tqdm(files):
+            if filename.endswith('.npz'):
+                input_path = os.path.join(root, filename)
+                # 保持相对路径结构
+                rel_path = os.path.relpath(root, src_folder)
+                output_dir = os.path.join(tgt_folder, rel_path)
+                os.makedirs(output_dir, exist_ok=True)
+                output_path = os.path.join(output_dir, filename)
+                convert_smpl_to_smplx(input_path, output_path, gender)
+                
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert SMPL motion data to SMPL-X format.")
-    parser.add_argument("--src_folder", type=str, help="Source directory of SMPL .npz files")
-    parser.add_argument("--tgt_folder", type=str, help="Target directory for SMPL-X .npz files")
+    parser.add_argument("--src_folder", type=str, 
+                        default="/home/msi/Desktop/BMLhandball/",
+                        help="Source directory of SMPL .npz files")
+    
+    parser.add_argument("--tgt_folder", type=str, 
+                        default="/home/msi/Desktop/BMLhandballxx/",
+                        help="Target directory for SMPL-X .npz files")
+    
     parser.add_argument("--input_file", type=str, help="Single input SMPL .npz file")
     parser.add_argument("--output_file", type=str, help="Single output SMPL-X .npz file")
     parser.add_argument("--gender", type=str, default="neutral", choices=["male", "female", "neutral"],

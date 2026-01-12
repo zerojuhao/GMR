@@ -1,4 +1,5 @@
 
+from Cython import ptrdiff_t
 import mink
 import mujoco as mj
 import numpy as np
@@ -150,6 +151,7 @@ class GeneralMotionRetargeting:
     def update_targets(self, human_data, offset_to_ground=False):
         # scale human data in local frame
         human_data = self.to_numpy(human_data)
+        # print("human_data keys:", human_data.keys())
         human_data = self.scale_human_data(human_data, self.human_root_name, self.human_scale_table)
         human_data = self.offset_human_data(human_data, self.pos_offsets1, self.rot_offsets1)
         human_data = self.apply_ground_offset(human_data)

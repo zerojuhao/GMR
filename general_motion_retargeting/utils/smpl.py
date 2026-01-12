@@ -23,6 +23,7 @@ def load_smplx_file(smplx_file, smplx_body_model_path):
     # print(smplx_data["betas"].shape)
     # print(smplx_data["root_orient"].shape)
     # print(smplx_data["trans"].shape)
+    # print("smplx_data", list(smplx_data.keys()))
     
     num_frames = smplx_data["pose_body"].shape[0]
     smplx_output = body_model(
