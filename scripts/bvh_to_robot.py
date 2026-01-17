@@ -110,10 +110,11 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
     )
-
+    
+    args_cli = parser.parse_args()
     parser.add_argument(
         "--save_path",
-        default='single_data',
+        default=f"{args_cli.robot}_gmr",
         help="Path to save the robot motion.",
     )
     

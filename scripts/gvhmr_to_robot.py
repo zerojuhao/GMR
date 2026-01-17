@@ -85,7 +85,7 @@ if __name__ == "__main__":
     args_cli = parser.parse_args()
     parser.add_argument(
         "--save_path",
-        default=f"{args_cli.robot}_tgt",
+        default=f"{args_cli.robot}_gmr",
         help="Path to save the robot motion.",
     )
     
