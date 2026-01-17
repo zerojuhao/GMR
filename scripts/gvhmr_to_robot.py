@@ -74,9 +74,10 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long","roboparty_atom02", "atom01msver"],
-        default="roboparty_atom01_long",
-        # default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02", "atom01msver"],
+        # default="roboparty_atom01_long_base_link",
+        # default="roboparty_atom01",
+        default="roboparty_atom02",
         # default="unitree_g1",
         # default="atom01msver",
     )

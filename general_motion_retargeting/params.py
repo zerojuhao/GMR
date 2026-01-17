@@ -23,7 +23,7 @@ ROBOT_XML_DICT = {
     "tienkung": ASSET_ROOT / "tienkung" / "mjcf" / "tienkung.xml",
     "pal_talos": ASSET_ROOT / "pal_talos" / "talos.xml",
     "roboparty_atom01": ASSET_ROOT / "roboparty_atom01" / "atom01.xml",
-    "roboparty_atom01_long": ASSET_ROOT / "roboparty_atom01_long" / "atom01_long.xml",
+    "roboparty_atom01_long_base_link": ASSET_ROOT / "roboparty_atom01_long_base_link" / "roboparty_atom01_long_base_link.xml",
     "roboparty_atom02": ASSET_ROOT / "roboparty_atom02" / "atom02.xml",
     "atom01msver": ASSET_ROOT / "atom01msver" / "atom01msver.xml",
 }
@@ -48,7 +48,7 @@ IK_CONFIG_DICT = {
         "pnd_adam_lite": IK_CONFIG_ROOT / "smplx_to_adam.json",
         "tienkung": IK_CONFIG_ROOT / "smplx_to_tienkung.json",
         "roboparty_atom01": IK_CONFIG_ROOT / "smplx_to_atom01.json",
-        "roboparty_atom01_long": IK_CONFIG_ROOT / "smplx_to_atom01_long.json",
+        "roboparty_atom01_long_base_link": IK_CONFIG_ROOT / "smplx_to_atom01_long_base_link.json",
         "roboparty_atom02": IK_CONFIG_ROOT / "smplx_to_atom02.json",
         "atom01msver": IK_CONFIG_ROOT / "smplx_to_atom01msver.json",
     },
@@ -99,7 +99,7 @@ ROBOT_BASE_DICT = {
     "tienkung": "Base_link",
     "pal_talos": "base_link",
     "roboparty_atom01": "base_link",
-    "roboparty_atom01_long": "base_link",
+    "roboparty_atom01_long_base_link": "base_link",
     "roboparty_atom02": "base_link",
     "atom01msver": "base_link",
 }
@@ -123,7 +123,7 @@ VIEWER_CAM_DISTANCE_DICT = {
     "tienkung": 3.0,
     "pal_talos": 3.0,
     "roboparty_atom01": 2.0,
-    "roboparty_atom01_long": 2.0,
+    "roboparty_atom01_long_base_link": 2.0,
     "roboparty_atom02": 2.0,
     "atom01msver": 2.0,
 }

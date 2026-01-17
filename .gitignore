@@ -45,7 +45,7 @@ assets/body_models/
 atom01_long_tgt/
 atom01_tgt/
 atom02_tgt/
-roboparty_atom01_long_tgt/
+smplx_to_atom01_long_base_link_tgt/
 roboparty_atom02_tgt/
 single_data/
 src_folders/

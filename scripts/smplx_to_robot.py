@@ -33,25 +33,15 @@ if __name__ == "__main__":
         # required=True,
         
         # stand 1
-        default="/home/msi/Desktop/ACCAD/Male2General_c3d/A1-_Stand_stageii.npz", # 站立不动
-
-        
-        # male1 walk 2
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B10_-_Walk_turn_left_45_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B13_-_Walk_turn_right_45_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B15_-_Walk_turn_around_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B16_-_Walk_turn_change_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B22_-_Side_step_left_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B23_-_Side_step_right_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male1Walking_c3d/Walk_B13_-_Walk_turn_right_45_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2General_c3d/A1-_Stand_stageii.npz", # 站立不动
         
         # male2 walk 9
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B4_-_Stand_to_Walk_backwards_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B9_-__Walk_turn_left_90_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B10_-__Walk_turn_left_45_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B13_-__Walk_turn_right_90_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz", 
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B15_-__Walk_turn_around_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B9_-__Walk_turn_left_90_stageii.npz", # 250-450
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B10_-__Walk_turn_left_45_stageii.npz", # 300-500
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B13_-__Walk_turn_right_90_stageii.npz", # 200-450
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz", # 300-550
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B15_-__Walk_turn_around_stageii.npz", # 0-300
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B22_-__side_step_left_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B23_-__side_step_right_stageii.npz",
         
@@ -66,9 +56,9 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_a_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C5_-_walk_to_run_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C12_-_run_turn_left_45_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C12_-_run_turn_left_45_stageii.npz", # 80-230
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C15_-_run_turn_right_45_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz", # 50-200
         
         # default="/home/msi/Desktop/ACCAD/Male2MartialArtsStances_c3d/D2_-_walk_to_ready_stageii.npz",
 
@@ -88,7 +78,7 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/CMU/127/127_03.npz", # stand to 跑步
         # default="/home/msi/Desktop/CMU/127/127_04.npz", # walk to run
         
-        # default="/home/msi/Desktop/CMU/127/127_06.npz", # run
+        default="/home/msi/Desktop/CMU/127/127_06.npz", # run
         # default="/home/msi/Desktop/CMU/127/127_09.npz", # Run Right
         # default="/home/msi/Desktop/CMU/127/127_11.npz", # Run Left
         # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # Run Left
@@ -115,7 +105,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_motion_start_end",
-        default=[80, 180],
+        default=[80, 230],
         help="Whether to save a slice of the robot motion.",
     )
 
@@ -148,9 +138,10 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long","roboparty_atom02", "atom01msver"],
-        default="roboparty_atom01_long",
-        # default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02", "atom01msver"],
+        # default="roboparty_atom01",
+        # default="roboparty_atom01_long_base_link",
+        default="roboparty_atom02",
         # default="unitree_g1",
         # default="atom01msver",
     )
@@ -318,12 +309,14 @@ if __name__ == "__main__":
                 show_robot_body_name=True,
                 rate_limit=args.rate_limit,
             )
+
             if args.save_path is not None:
                 qpos_list.append(qpos)
     finally:
         # 恢复终端设置
         termios.tcsetattr(fd, termios.TCSADRAIN, old_term)
 # ...existing code...
+    
     
     robot_motion_viewer.close()
     robot_motion_viewer = RobotMotionViewer(robot_type=args.robot,
@@ -442,6 +435,7 @@ if __name__ == "__main__":
                 show_human_body_name=False,
                 rate_limit=args.rate_limit,
             )
+            
 
     finally:
         # 恢复终端设置

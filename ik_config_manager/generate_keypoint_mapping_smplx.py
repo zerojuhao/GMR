@@ -40,8 +40,8 @@ if __name__ == "__main__":
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                  "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro",
                  "berkeley_humanoid_lite", "booster_k1", "pnd_adam_lite",
-                 "openloong", "tienkung","joyin","joyin_add", "roboparty_atom01", "roboparty_atom01_long", "roboparty_atom02"],
-        default="roboparty_atom01_long",
+                 "openloong", "tienkung","joyin","joyin_add", "roboparty_atom01", "roboparty_atom01_long_base_link", "roboparty_atom02"],
+        default="roboparty_atom01",
         # default="unitree_g1",
     )
     
@@ -77,10 +77,10 @@ if __name__ == "__main__":
 
 
     parser.add_argument("--ik_config_in", type=str, 
-                        default="general_motion_retargeting/ik_configs/smplx_to_atom01_long.json",
+                        default="general_motion_retargeting/ik_configs/smplx_to_atom01.json",
                         help="输入 IK 配置路径（支持 ik_match_table1&2 字典结构）。")
     parser.add_argument("--ik_config_out", type=str, 
-                        default="general_motion_retargeting/ik_configs/smplx_to_atom01_long_mod.json",
+                        default="general_motion_retargeting/ik_configs/smplx_to_atom01_mod.json",
                         help="写回 qoffset_quat 的输出 IK 路径。")
 
     args = parser.parse_args()
