@@ -43,8 +43,8 @@ if __name__ == "__main__":
         "--bvh_file",
         help="BVH motion file to load.",
         # required=True,
-        default="/home/msi/Desktop/lafan1/walk1_subject2.bvh",
-        # default="/home/msi/Desktop/lafan1/run1_subject5.bvh",
+        # default="/home/msi/Desktop/lafan1/walk1_subject2.bvh",
+        default="/home/msi/Downloads/demo_dataset/20251216_seat-2_012_001.bvh",
         type=str,
     )
 
@@ -87,9 +87,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--robot",
         choices=["unitree_g1", "unitree_g1_with_hands", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01","roboparty_atom01"],
-        default="roboparty_atom01",
+        # default="roboparty_atom01",
         # default="roboparty_atom02",
-        # default="unitree_g1",
+        default="unitree_g1",
         # default="engineai_pm01",
     )
         
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     
     # Initialize the retargeting system
     retargeter = GMR(
-        src_human="bvh_lafan1",
+        src_human="bvh_nokov", # bvh_lafan1
         tgt_robot=args.robot,
         actual_human_height=actual_human_height,
     )
@@ -281,7 +281,7 @@ if __name__ == "__main__":
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
         ground_offset = 0.01
         lowerst_height_body_pos = torch.min(body_pos[..., 2]).item()    
-        root_pos[:, 2] = root_pos[:, 2] + ground_offset
+        root_pos[:, 2] = root_pos[:, 2] - lowerst_height_body_pos
 
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
@@ -362,7 +362,7 @@ if __name__ == "__main__":
         # 恢复终端设置
         termios.tcsetattr(fd, termios.TCSADRAIN, old_term)
 
-    root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]]
+    # root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]]
     if args.save_path is not None:
 
         # Compute velocities

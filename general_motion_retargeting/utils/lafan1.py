@@ -5,7 +5,7 @@ import general_motion_retargeting.utils.lafan_vendor.utils as utils
 from general_motion_retargeting.utils.lafan_vendor.extract import read_bvh
 
 
-def load_bvh_file(bvh_file, format="lafan1"):
+def load_bvh_file(bvh_file, format="nokov"):
     """
     Must return a dictionary with the following structure:
     {
@@ -27,14 +27,14 @@ def load_bvh_file(bvh_file, format="lafan1"):
             orientation = utils.quat_mul(rotation_quat, global_data[0][frame, i])
             position = global_data[1][frame, i] @ rotation_matrix.T / 100  # cm to m
             result[bone] = [position, orientation]
-            
+            # print("bones:", data.bones)
         if format == "lafan1":
             # Add modified foot pose
             result["LeftFootMod"] = [result["LeftFoot"][0], result["LeftToe"][1]]
             result["RightFootMod"] = [result["RightFoot"][0], result["RightToe"][1]]
         elif format == "nokov":
-            result["LeftFootMod"] = [result["LeftFoot"][0], result["LeftToeBase"][1]]
-            result["RightFootMod"] = [result["RightFoot"][0], result["RightToeBase"][1]]
+            result["LeftFootMod"] = [result["LeftFoot"][0], result["LeftFoot"][1]]
+            result["RightFootMod"] = [result["RightFoot"][0], result["RightFoot"][1]]
         else:
             raise ValueError(f"Invalid format: {format}")
             

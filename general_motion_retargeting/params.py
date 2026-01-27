@@ -25,7 +25,6 @@ ROBOT_XML_DICT = {
     "roboparty_atom01": ASSET_ROOT / "roboparty_atom01" / "atom01.xml",
     "roboparty_atom01_long_base_link": ASSET_ROOT / "roboparty_atom01_long_base_link" / "roboparty_atom01_long_base_link.xml",
     "roboparty_atom02": ASSET_ROOT / "roboparty_atom02" / "atom02.xml",
-    "atom01msver": ASSET_ROOT / "atom01msver" / "atom01msver.xml",
 }
 
 IK_CONFIG_DICT = {
@@ -50,7 +49,6 @@ IK_CONFIG_DICT = {
         "roboparty_atom01": IK_CONFIG_ROOT / "smplx_to_atom01.json",
         "roboparty_atom01_long_base_link": IK_CONFIG_ROOT / "smplx_to_atom01_long_base_link.json",
         "roboparty_atom02": IK_CONFIG_ROOT / "smplx_to_atom02.json",
-        "atom01msver": IK_CONFIG_ROOT / "smplx_to_atom01msver.json",
     },
     "bvh_lafan1":{
         "unitree_g1": IK_CONFIG_ROOT / "bvh_lafan1_to_g1.json",
@@ -62,6 +60,9 @@ IK_CONFIG_DICT = {
         "pal_talos": IK_CONFIG_ROOT / "bvh_to_talos.json",
         "roboparty_atom01": IK_CONFIG_ROOT / "bvh_lafan1_to_atom01.json",
         "roboparty_atom02": IK_CONFIG_ROOT / "bvh_lafan1_to_atom02.json",
+    },
+    "bvh_test":{
+        "unitree_g1": IK_CONFIG_ROOT / "bvh_test_to_g1.json",
     },
     "bvh_nokov":{
         "unitree_g1": IK_CONFIG_ROOT / "bvh_nokov_to_g1.json",
@@ -101,7 +102,6 @@ ROBOT_BASE_DICT = {
     "roboparty_atom01": "base_link",
     "roboparty_atom01_long_base_link": "base_link",
     "roboparty_atom02": "base_link",
-    "atom01msver": "base_link",
 }
 
 VIEWER_CAM_DISTANCE_DICT = {
@@ -125,5 +125,4 @@ VIEWER_CAM_DISTANCE_DICT = {
     "roboparty_atom01": 2.0,
     "roboparty_atom01_long_base_link": 2.0,
     "roboparty_atom02": 2.0,
-    "atom01msver": 2.0,
 }

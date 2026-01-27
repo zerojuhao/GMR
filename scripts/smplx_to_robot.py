@@ -45,13 +45,13 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B22_-__side_step_left_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B23_-__side_step_right_stageii.npz",
         
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B5_-__Walk_backwards_stageii.npz", # 需要截断开头的数据
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B11_-__Walk_turn_left_135_stageii.npz", # 需要截断末尾的数据
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B5_-__Walk_backwards_stageii.npz",
+        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B11_-__Walk_turn_left_135_stageii.npz",
         
 
 
         # male2 run 8
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C1_-_stand_to_run_stageii.npz",
+        default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C1_-_stand_to_run_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C3_-_run_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_a_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_stageii.npz",
@@ -59,8 +59,6 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C12_-_run_turn_left_45_stageii.npz", # 80-230
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C15_-_run_turn_right_45_stageii.npz",
         # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz", # 50-200
-        
-        # default="/home/msi/Desktop/ACCAD/Male2MartialArtsStances_c3d/D2_-_walk_to_ready_stageii.npz",
 
         
         # CMU motion
@@ -78,21 +76,14 @@ if __name__ == "__main__":
         # default="/home/msi/Desktop/CMU/127/127_03.npz", # stand to 跑步
         # default="/home/msi/Desktop/CMU/127/127_04.npz", # walk to run
         
-        default="/home/msi/Desktop/CMU/127/127_06.npz", # run
+        # default="/home/msi/Desktop/CMU/127/127_06.npz", # run
         # default="/home/msi/Desktop/CMU/127/127_09.npz", # Run Right
         # default="/home/msi/Desktop/CMU/127/127_11.npz", # Run Left
         # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # Run Left
         # default="/home/msi/Desktop/CMU/127/127_16_stageii.npz", # Run Right
         # default="/home/msi/Desktop/CMU/127/127_18.npz", # Run Stop Run
         # default="/home/msi/Desktop/CMU/143/143_02.npz", # Run to Stop
-        # default="/home/msi/Desktop/CMU/143/143_03.npz", # Start to Run
-        
-        
-        # default="/home/msi/Desktop/CMU/88/88_05.npz", # 侧翻+空翻
-        # default="/home/msi/Desktop/ACCAD/Female1Gestures_c3d/D6-_CartWheel_stageii.npz", 
-        
-        # default="/home/msi/Desktop/ACCAD/Male2MartialArtsKicks_c3d/G8_-__roundhouse_left_stageii.npz",
-        # default="/home/msi/Desktop/BMLhandball/S01_ExpertXXXX/Trial_upper_left_033_poses.npz",
+        # default="/home/msi/Desktop/CMU/143/143_03.npz", # Start to Run        
         
         
         )
@@ -111,7 +102,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--save_as_pkl",
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as pkl format.",
     )
 
@@ -138,12 +129,11 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02", "atom01msver"],
-        # default="roboparty_atom01",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02"],
+        default="roboparty_atom01",
         # default="roboparty_atom01_long_base_link",
-        default="roboparty_atom02",
+        # default="roboparty_atom02",
         # default="unitree_g1",
-        # default="atom01msver",
     )
     args_cli = parser.parse_args()
     parser.add_argument(
@@ -188,8 +178,10 @@ if __name__ == "__main__":
     # align fps
     src_fps = smplx_data["mocap_frame_rate"].item()
     tgt_fps = src_fps
-    print("原数据集FPS:", src_fps)
-    print("目标FPS:", tgt_fps)
+    
+    print("Original FPS:", src_fps)
+    print("Target FPS:", tgt_fps)
+    
     smplx_data_frames, aligned_fps = get_smplx_data_offline_fast(smplx_data, body_model, smplx_output, tgt_fps=tgt_fps)
     
    
@@ -206,7 +198,6 @@ if __name__ == "__main__":
                                             record_video=args.record_video,
                                             video_path=f"videos/{args.robot}_{args.smplx_file.split('/')[-1].split('.')[0]}.mp4",)
 
-
     curr_frame = 0
     # FPS measurement variables
     fps_counter = 0
@@ -214,20 +205,17 @@ if __name__ == "__main__":
     fps_display_interval = 2.0  # Display FPS every 2 seconds
     
     if args.save_path is not None:
-        os.makedirs(args.save_path, exist_ok=True)
-    
+        save_dir = os.path.dirname(args.save_path)
+        if save_dir:  # Only create directory if it's not empty
+            os.makedirs(save_dir, exist_ok=True)
+            
+            
     qpos_list = []
             
-    # Start the viewer 可导出数据集切片 按空格可暂停播放
-
-    # from 36-02: 150-290右转  650-720左转 900-1030右转
-    # from 36-03: 180-350右转  600-750左转 1100-1300右转 1520-1700左转
-    # from 36-09: 450-580右转  1050-1200左转 1450-1600左转
-    START_FRAME = args.slice_motion_start_end[0] # e.g., 180
+    START_FRAME = args.slice_motion_start_end[0]
     END_FRAME = args.slice_motion_start_end[1]
-
-    # False 则保存全部帧
     SAVE_SLICE = args.save_slice
+    
     if SAVE_SLICE == True:
         if START_FRAME >= len(smplx_data_frames):
             print(f"START_FRAME {START_FRAME} exceeds total frames {len(smplx_data_frames)}. Adjusting to {len(smplx_data_frames)-1}.")
@@ -242,8 +230,7 @@ if __name__ == "__main__":
         n_frames_total = len(smplx_data_frames)
         
         
-# ...existing code...
-    # --- 在终端设置 cbreak，按空格切换 paused ---
+    # --- Set terminal to cbreak mode, press space to toggle paused ---
     fd = sys.stdin.fileno()
     old_term = termios.tcgetattr(fd)
     tty.setcbreak(fd)
@@ -251,7 +238,7 @@ if __name__ == "__main__":
 
     try:
         while True:
-            # 非阻塞读取按键
+            # Non-blocking key read
             dr, _, _ = select.select([sys.stdin], [], [], 0.0)
             if dr:
                 ch = sys.stdin.read(1)
@@ -282,13 +269,8 @@ if __name__ == "__main__":
                 fps_counter = 0
                 fps_start_time = current_time
 
-            # Update task targets.
             smplx_data = smplx_data_frames[i]
-
-            # retarget
             qpos = retargeter.retarget(smplx_data)
-
-            # 获取机器人对应连杆名称列表
             robot_frames = retargeter.ik_match_table1.keys()
         
             # qpos[26] = qpos[26] + 0.1
@@ -306,16 +288,14 @@ if __name__ == "__main__":
                 human_pos_offset=np.array([0.0, 0.0, 0.0]),
                 show_human_body_name=False,
                 robot_frames=robot_frames,
-                show_robot_body_name=True,
+                show_robot_body_name=False,
                 rate_limit=args.rate_limit,
             )
 
             if args.save_path is not None:
                 qpos_list.append(qpos)
     finally:
-        # 恢复终端设置
         termios.tcsetattr(fd, termios.TCSADRAIN, old_term)
-# ...existing code...
     
     
     robot_motion_viewer.close()
@@ -326,7 +306,7 @@ if __name__ == "__main__":
                                             video_path=f"videos/{args.robot}_{args.smplx_file.split('/')[-1].split('.')[0]}.mp4",)
     
     
-    device = "cuda"  # 使用CPU 或 cuda
+    device = "cuda"  # use CPU or cuda
     kinematics_model = KinematicsModel(retargeter.xml_file, device=device)
 
     # Ensure qpos_list is a numpy array before slicing (fix TypeError)
@@ -352,10 +332,9 @@ if __name__ == "__main__":
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        ground_offset = -0.05
-        # ground_offset = torch.min(body_pos[..., 2]).item()
-        # root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
-        root_pos[:, 2] = root_pos[:, 2] - ground_offset # make sure motion on the ground
+        # ground_offset = -0.05
+        lowerst_height = torch.min(body_pos[..., 2]).item()
+        root_pos[:, 2] = root_pos[:, 2] - lowerst_height # make sure motion on the ground
         
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
@@ -381,7 +360,7 @@ if __name__ == "__main__":
     fps_start_time = time.time()
     fps_display_interval = 2.0  # Display FPS every 2 seconds
 
-    # --- 在终端设置 cbreak，按空格切换 paused ---
+    # --- Set terminal to cbreak mode, press space to toggle paused ---
     fd = sys.stdin.fileno()
     old_term = termios.tcgetattr(fd)
     tty.setcbreak(fd)
@@ -390,7 +369,7 @@ if __name__ == "__main__":
     
     try:
         while True:
-            # 非阻塞读取按键
+            # Non-blocking read of key press
             dr, _, _ = select.select([sys.stdin], [], [], 0.0)
             if dr:
                 ch = sys.stdin.read(1)
@@ -438,9 +417,8 @@ if __name__ == "__main__":
             
 
     finally:
-        # 恢复终端设置
+        # Restore terminal settings
         termios.tcsetattr(fd, termios.TCSADRAIN, old_term)
-# ...existing code...
 
     root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]] # xyzw to wxyz
 
@@ -499,21 +477,21 @@ if __name__ == "__main__":
         npz_dir = os.path.dirname(npz_path)
         if npz_dir:
             os.makedirs(npz_dir, exist_ok=True)
-        # 准备 numpy-compatible dict
+        # numpy-compatible dict
         try:
             npz_dict = to_numpy_compatible(motion_data)
         except Exception as e:
             print(f"[ERROR] Converting to numpy-compatible failed for {npz_path}: {e}")
             npz_dict = {}
             
-        # 选择保存格式
+        # Choose save format
         PKL = args.save_as_pkl
         NPZ = args.save_as_npz
         TXT = args.save_as_txt
         CSV = args.save_as_csv
     
         if NPZ:
-            # 1) 保存 npz
+            # 1) Save npz
             try:
                 np.savez_compressed(npz_path, **npz_dict)
                 print(f"Saved to {npz_path}")
@@ -521,7 +499,7 @@ if __name__ == "__main__":
                 print(f"[ERROR] Saving .npz failed for {npz_path}: {e}")
                 
         if PKL:
-            # 2) 保存 pkl
+            # 2) Save pkl
             try:
                 joblib.dump(npz_dict, pkl_path)
                 print(f"Saved to {pkl_path}")
@@ -529,7 +507,7 @@ if __name__ == "__main__":
                 print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
 
         if TXT:
-            # 3) 保存 txt
+            # 3) Save txt
             try:
                 with open(txt_path, "w") as f:
                     for k, v in npz_dict.items():
@@ -539,7 +517,7 @@ if __name__ == "__main__":
                 print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
 
         if CSV:
-            # 4) 保存 csv
+            # 4) Save csv
             try:
                 def export_to_csv(root_pos, root_rot, dof_pos, filename):
                     num_frames = root_pos.shape[0]

@@ -33,7 +33,7 @@ def check_memory(threshold_gb=1):  # adjust based on your available memory
 HERE = pathlib.Path(__file__).parent
 
 
-def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_folder, total_files, verbose=False):
+def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_folder, save_as_pkl, save_as_npz, save_as_txt, save_as_csv, total_files, verbose=False):
     def log_memory(message):
         if verbose:
             process = psutil.Process(os.getpid())
@@ -46,6 +46,12 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         
     # Initial checks (with optional logging)
     log_memory("Initial memory usage")
+    
+    # Set save flags
+    PKL = save_as_pkl
+    NPZ = save_as_npz
+    TXT = save_as_txt
+    CSV = save_as_csv
     
     num_pause = 0
     while check_memory():
@@ -86,8 +92,7 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     qpos_list = np.array(qpos_list)
     log_memory("After retargeting")
     
-    device = "cuda:0"
-    # device = "cpu"  # 改为使用CPU设备
+    device = "cuda:0" # or cpu
     
     kinematics_model = KinematicsModel(retargeter.xml_file, device=device)
 
@@ -106,10 +111,9 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        ground_offset = 0.05
-        # lowerst_height = torch.min(body_pos[..., 2]).item()
-        # root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
-        root_pos[:, 2] = root_pos[:, 2] + ground_offset # make sure motion on the ground
+        # ground_offset = -0.05
+        lowerst_height = torch.min(body_pos[..., 2]).item()
+        root_pos[:, 2] = root_pos[:, 2] - lowerst_height # make sure motion on the ground
         
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
@@ -176,42 +180,57 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     txt_path = base_no_ext + ".txt"
     os.makedirs(os.path.dirname(npz_path), exist_ok=True)
 
-    # 准备 numpy-compatible dict
+    # numpy-compatible dict
     try:
         npz_dict = to_numpy_compatible(motion_data)
     except Exception as e:
         print(f"[ERROR] Converting to numpy-compatible failed for {npz_path}: {e}")
         npz_dict = {}
-
-    # 选择保存格式
-    PKL = True
-    NPZ = False
-    TXT = False
     
     if NPZ:
-        # 1) 保存 npz
+        # 1) Save npz
         try:
             np.savez_compressed(npz_path, **npz_dict)
+            print(f"Saved to {npz_path}")
         except Exception as e:
             print(f"[ERROR] Saving .npz failed for {npz_path}: {e}")
             
     if PKL:
-        # 2) 保存 pkl
+        # 2) Save pkl
         try:
             joblib.dump(npz_dict, pkl_path)
+            print(f"Saved to {pkl_path}")
         except Exception as _e:
             print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
 
     if TXT:
-        # 3) 保存 txt
+        # 3) Save txt
         try:
             with open(txt_path, "w") as f:
                 for k, v in npz_dict.items():
                     f.write(f"{k}: {v}\n")
+            print(f"Saved to {txt_path}")
         except Exception as e:
             print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
             
-
+    if CSV:
+        # 4) Save csv
+        try:
+            def export_to_csv(root_pos, root_rot, dof_pos, filename):
+                num_frames = root_pos.shape[0]
+                with open(filename, 'w') as f:
+                    for i in range(num_frames):
+                        row = [f"{root_pos[i, j]:.6f}" for j in range(3)]
+                        row += [f"{root_rot[i, j]:.6f}" for j in range(4)]
+                        row += [f"{dof_pos[i, j]:.6f}" for j in range(dof_pos.shape[1])]
+                        f.write(','.join(row) + '\n')
+            csv_path = base_no_ext + ".csv"
+            export_to_csv(root_pos, root_rot, dof_pos, csv_path) # 8 14
+            print(f"Saved to {csv_path}")
+            
+        except Exception as e:
+            print(f"[ERROR] Saving .csv failed for {csv_path}: {e}")
+                
     if verbose:
         # Get memory snapshot
         snapshot = tracemalloc.take_snapshot()
@@ -236,21 +255,42 @@ def main():
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02", "atom01msver"],
-        # default="roboparty_atom01",
-        default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02"],
+        default="roboparty_atom01",
+        # default="roboparty_atom02",
         # default="unitree_g1",
-        # default="atom01msver",
     )
     parser.add_argument("--src_folder", type=str,
-                        default="src_folder",
+                        default="/home/msi/Desktop/src",
                         )
     parser.add_argument("--tgt_folder", type=str,
-                        default="atom02_tgt",
+                        default="/home/msi/Desktop/tgt",
                         )
+    parser.add_argument(
+        "--save_as_pkl",
+        default=True, # True or False
+        help="whether to save the robot motion as pkl format.",
+    )
+
+    parser.add_argument(
+        "--save_as_txt",
+        default=True, # True or False
+        help="whether to save the robot motion as txt format.",
+    )
     
+    parser.add_argument(
+        "--save_as_csv", 
+        default=True, # True or False
+        help="whether to save the robot motion as csv format.",
+    )
+    
+    parser.add_argument(
+        "--save_as_npz",
+        default=True, # True or False
+        help="whether to save the robot motion as npz format.",
+    )
     parser.add_argument("--override", default=True, action="store_true")
-    parser.add_argument("--num_cpus", default=2, type=int)
+    parser.add_argument("--num_cpus", default=5, type=int)
     args = parser.parse_args()
     
     # print the total number of cpus and gpus
@@ -291,7 +331,7 @@ def main():
                 tgt_file_path = os.path.join(tgt_folder, rel_path)
 
                 if not os.path.exists(tgt_file_path) or args.override:
-                    args_list.append((smplx_file_path, tgt_file_path, args.robot, SMPLX_FOLDER, tgt_folder))
+                    args_list.append((smplx_file_path, tgt_file_path, args.robot, SMPLX_FOLDER, tgt_folder, args.save_as_pkl, args.save_as_npz, args.save_as_txt, args.save_as_csv))
     print("full args_list:", len(args_list))
     
     # remove hard and infeasible motions

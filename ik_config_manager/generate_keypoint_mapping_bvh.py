@@ -52,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--format",
         choices=["lafan1", "nokov"],
-        default="lafan1",
+        default="nokov",
     )
     
     parser.add_argument(
@@ -62,8 +62,8 @@ if __name__ == "__main__":
                  "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro",
                  "berkeley_humanoid_lite", "booster_k1", "pnd_adam_lite",
                  "openloong", "tienkung","joyin","joyin_add", "roboparty_atom01", "roboparty_atom02"],
-        # default="unitree_g1",
-        default="roboparty_atom02",
+        default="unitree_g1",
+        # default="roboparty_atom02",
     )
     
     parser.add_argument(
@@ -93,14 +93,14 @@ if __name__ == "__main__":
         help="Limit the rate of the retargeted robot motion to keep the same as the human motion.",
     )
 
-    parser.add_argument("--robot_qpos_init", type=str, default="ik_config_manager/pose_inits/atom_02_tpose.json",
+    parser.add_argument("--robot_qpos_init", type=str, default="ik_config_manager/pose_inits/unitree_g1_tpose.json",
                         help="Optional: path to .json containing root_pos(3), root_rot(4 wxyz), dof_pos(N) or name->value dict.")
 
     parser.add_argument("--ik_config_in", type=str, 
-                        default="general_motion_retargeting/ik_configs/bvh_lafan1_to_atom02.json",
+                        default="general_motion_retargeting/ik_configs/bvh_nokov_to_g1.json",
                         help="输入 IK 配置路径（支持 ik_match_table1&2 字典结构）。")
     parser.add_argument("--ik_config_out", type=str, 
-                        default="general_motion_retargeting/ik_configs/bvh_lafan1_to_atom02_mod.json",
+                        default="general_motion_retargeting/ik_configs/bvh_nokov_to_g1_mod.json",
                         help="写回 qoffset_quat 的输出 IK 路径。")
     
     parser.add_argument("--target_up_axis", choices=['Y', 'Z'], default='Z',
