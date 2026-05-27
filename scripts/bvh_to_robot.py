@@ -14,25 +14,6 @@ import select
 import termios
 import tty
 import joblib
-from tools import axis_angle_from_quat, quat_conjugate, quat_mul, quat_slerp
-
-
-def _so3_derivative(rotations: torch.Tensor, dt: float) -> torch.Tensor:
-    """Computes the derivative of a sequence of SO3 rotations.
-
-    Args:
-        rotations: shape (B, 4).
-        dt: time step.
-    Returns:
-        shape (B, 3).
-    """
-    q_prev, q_next = rotations[:-2], rotations[2:]
-    q_rel = quat_mul(q_next, quat_conjugate(q_prev))  # shape (B−2, 4)
-
-    omega = axis_angle_from_quat(q_rel) / (2.0 * dt)  # shape (B−2, 3)
-    omega = torch.cat([omega[:1], omega, omega[-1:]], dim=0)  # repeat first and last sample
-    return omega
-
 
 if __name__ == "__main__":
     
@@ -43,8 +24,8 @@ if __name__ == "__main__":
         "--bvh_file",
         help="BVH motion file to load.",
         # required=True,
-        # default="/home/msi/Desktop/lafan1/walk1_subject2.bvh",
-        default="/home/msi/Downloads/demo_dataset/20251216_seat-2_012_001.bvh",
+        default="../lafan1/dance1_subject2.bvh",
+        # default="/home/msi/Downloads/demo_dataset/20251216_seat-2_012_001.bvh",
         type=str,
     )
 
@@ -62,14 +43,8 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--save_as_pkl",
-        default=False, # True or False
+        default=True, # True or False
         help="whether to save the robot motion as pkl format.",
-    )
-
-    parser.add_argument(
-        "--save_as_txt",
-        default=False, # True or False
-        help="whether to save the robot motion as txt format.",
     )
     
     parser.add_argument(
@@ -86,11 +61,9 @@ if __name__ == "__main__":
     
     parser.add_argument(
         "--robot",
-        choices=["unitree_g1", "unitree_g1_with_hands", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01","roboparty_atom01"],
-        # default="roboparty_atom01",
-        # default="roboparty_atom02",
-        default="unitree_g1",
-        # default="engineai_pm01",
+        choices=["unitree_g1", "unitree_g1_with_hands", "booster_t1", "stanford_toddy", "fourier_n1", "engineai_pm01","rpo"],
+        default="rpo",
+        # default="unitree_g1",
     )
         
     parser.add_argument(
@@ -108,7 +81,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--rate_limit",
         action="store_true",
-        default=False,
+        default=True,
     )
     
     args_cli = parser.parse_args()
@@ -131,7 +104,7 @@ if __name__ == "__main__":
     
     # Initialize the retargeting system
     retargeter = GMR(
-        src_human="bvh_nokov", # bvh_lafan1
+        src_human="bvh_lafan1", # bvh_lafan1 bvh_nokov
         tgt_robot=args.robot,
         actual_human_height=actual_human_height,
     )
@@ -238,8 +211,8 @@ if __name__ == "__main__":
                 root_rot=qpos[3:7],
                 dof_pos=qpos[7:],
                 human_motion_data=retargeter.scaled_human_data,
-                # rate_limit=args.rate_limit, # 这里改为 False 保持高速运行
-                rate_limit=False,
+                rate_limit=args.rate_limit, # 这里改为 False 保持高速运行
+                # rate_limit=False,
                 human_pos_offset=np.array([0.0, 0.0, 0.0])
             )
 
@@ -362,13 +335,10 @@ if __name__ == "__main__":
         # 恢复终端设置
         termios.tcsetattr(fd, termios.TCSADRAIN, old_term)
 
-    # root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]]
+    if args.save_as_csv:
+        root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]]
+        
     if args.save_path is not None:
-
-        # Compute velocities
-        dof_vel = torch.gradient(torch.from_numpy(dof_pos).float(), spacing=1/src_fps, dim=0)[0]
-        body_lin_vel_w = torch.gradient(body_pos, spacing=1/src_fps, dim=0)[0]
-        body_ang_vel_w = _so3_derivative(rotations=body_rot, dt=1/src_fps)
 
         motion_data = {
             "fps": src_fps,
@@ -382,15 +352,6 @@ if __name__ == "__main__":
             "body_positions": body_pos,
             "local_body_pos": body_pos,
             "body_rotations": body_rot,
-            
-            # dataset for beyond mimic
-            "joint_names": dof_names,
-            "joint_pos": dof_pos,
-            "joint_vel": dof_vel,
-            "body_pos_w": root_pos,
-            "body_quat_w": root_rot,
-            "body_lin_vel_w": body_lin_vel_w,
-            "body_ang_vel_w": body_ang_vel_w,
         }
         
         print("dof names:", motion_data["dof_names"])
@@ -429,7 +390,6 @@ if __name__ == "__main__":
         base_no_ext = os.path.join(args.save_path, base_name)
         npz_path = base_no_ext + ".npz"
         pkl_path = base_no_ext + ".pkl"
-        txt_path = base_no_ext + ".txt"
         npz_dir = os.path.dirname(npz_path)
         if npz_dir:
             os.makedirs(npz_dir, exist_ok=True)
@@ -455,19 +415,9 @@ if __name__ == "__main__":
                 print(f"Saved to {pkl_path}")
             except Exception as _e:
                 print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
-
-        if args.save_as_txt:
-            # 3) 保存 txt
-            try:
-                with open(txt_path, "w") as f:
-                    for k, v in npz_dict.items():
-                        f.write(f"{k}: {v}\n")
-                print(f"Saved to {txt_path}")
-            except Exception as e:
-                print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
                 
         if args.save_as_csv:
-            # 4) 保存 csv
+            # 3) 保存 csv
             try:
                 def export_to_csv(root_pos, root_rot, dof_pos, filename):
                     num_frames = root_pos.shape[0]

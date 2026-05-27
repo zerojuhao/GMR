@@ -31,7 +31,7 @@ function for your own humanoid robots.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Unitree G1 `unitree_g1` | Leg (2\*6) + Waist (3) + Arm (2\*7) = 29 | ✅ | ✅ | ✅ |  ✅ | ✅ |
 | 1 | Unitree G1 with Hands `unitree_g1_with_hands` | Leg (2\*6) + Waist (3) + Arm (2\*7) + Hand (2\*7) = 43 | ✅ | ✅ | ✅ | TBD | TBD |
-| 2 | Roboparty `atom_01` | Leg (2\*6) + Waist (1) + Arm (2\*5) = 23 | ✅ | TBD | TBD | TBD | TBD |
+| 2 | Roboparty `Origin` | Leg (2\*6) + Waist (1) + Arm (2\*5) = 23 | ✅ | TBD | TBD | TBD | TBD |
 
 
 ## Installation
@@ -372,5 +372,5 @@ The human motion data we try includes [AMASS](https://amass.is.tue.mpg.de/), [OM
 
 The original robot models can be found at the following locations:
 
-* [Roboparty Atom01](https://github.com/Roboparty/atom01_description)
+* [Roboparty Origin](https://github.com/Roboparty/rpo_description)
 * [Unitree G1](https://github.com/unitreerobotics/unitree_ros): [Link to file](https://github.com/unitreerobotics/unitree_ros/tree/master/robots/g1_description)

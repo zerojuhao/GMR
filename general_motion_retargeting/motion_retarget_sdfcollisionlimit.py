@@ -195,7 +195,7 @@ class GeneralMotionRetargeting:
         self.collision_gain = 10
         self.collision_safety_margin = 0.05
         # self.collision_body_names = ['knee', 'ankle', 'torso', 'elbow', 'hand']
-        self.collision_body_names = ['ankle_roll', 'knee']
+        self.collision_body_names = ['ankle_roll', 'knee', 'torso', 'elbow', 'wrist']
         
         self.regularity_enabled = True
         self.acc_weight = 0.01

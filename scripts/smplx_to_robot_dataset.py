@@ -18,7 +18,7 @@ import gc
 import time
 import psutil
 import tracemalloc
-import joblib
+import pickle
 
 def check_memory(threshold_gb=1):  # adjust based on your available memory
     mem = psutil.virtual_memory()
@@ -136,7 +136,6 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
         "root_rot": root_rot,
         "dof_names": dof_names,
         "body_names": body_names,
-        # "link_body_list": body_names, # to be modified if needed in AMP(legged_lab)
         "dof_positions": dof_pos,
         "dof_pos": dof_pos,
         "body_positions": body_pos,
@@ -177,9 +176,9 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     base_no_ext = os.path.splitext(tgt_file_path)[0]
     npz_path = base_no_ext + ".npz"
     pkl_path = base_no_ext + ".pkl"
-    txt_path = base_no_ext + ".txt"
-    os.makedirs(os.path.dirname(npz_path), exist_ok=True)
-
+    npz_dir = os.path.dirname(npz_path)
+    if npz_dir:
+        os.makedirs(npz_dir, exist_ok=True)
     # numpy-compatible dict
     try:
         npz_dict = to_numpy_compatible(motion_data)
@@ -198,23 +197,14 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     if PKL:
         # 2) Save pkl
         try:
-            joblib.dump(npz_dict, pkl_path)
+            with open(pkl_path, "wb") as f:
+                pickle.dump(npz_dict, f)
             print(f"Saved to {pkl_path}")
         except Exception as _e:
-            print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
-
-    if TXT:
-        # 3) Save txt
-        try:
-            with open(txt_path, "w") as f:
-                for k, v in npz_dict.items():
-                    f.write(f"{k}: {v}\n")
-            print(f"Saved to {txt_path}")
-        except Exception as e:
-            print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
+            print(f"[WARN] pickle dump failed for {pkl_path}: {_e}")
             
     if CSV:
-        # 4) Save csv
+        # 3) Save csv
         try:
             def export_to_csv(root_pos, root_rot, dof_pos, filename):
                 num_frames = root_pos.shape[0]
@@ -255,9 +245,8 @@ def main():
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom02"],
-        default="roboparty_atom01",
-        # default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "rpo"],
+        default="rpo",
         # default="unitree_g1",
     )
     parser.add_argument("--src_folder", type=str,
@@ -268,25 +257,19 @@ def main():
                         )
     parser.add_argument(
         "--save_as_pkl",
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as pkl format.",
-    )
-
-    parser.add_argument(
-        "--save_as_txt",
-        default=True, # True or False
-        help="whether to save the robot motion as txt format.",
     )
     
     parser.add_argument(
         "--save_as_csv", 
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as csv format.",
     )
     
     parser.add_argument(
         "--save_as_npz",
-        default=True, # True or False
+        default=False, # True or False
         help="whether to save the robot motion as npz format.",
     )
     parser.add_argument("--override", default=True, action="store_true")

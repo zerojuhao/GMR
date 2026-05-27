@@ -2,6 +2,7 @@ import argparse
 from email.policy import default
 import pathlib
 import os
+import pickle
 import time
 import numpy as np
 from general_motion_retargeting import GeneralMotionRetargeting as GMR
@@ -30,59 +31,62 @@ if __name__ == "__main__":
         # required=True,
         
         # stand 1
-        default="/home/msi/Desktop/ACCAD/Male2General_c3d/A1-_Stand_stageii.npz", # 站立不动
+        default="../ACCAD/Male2General_c3d/A1-_Stand_stageii.npz",
         
         # male2 walk 9
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B4_-_Stand_to_Walk_backwards_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B9_-__Walk_turn_left_90_stageii.npz", # 250-450
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B10_-__Walk_turn_left_45_stageii.npz", # 300-500
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B13_-__Walk_turn_right_90_stageii.npz", # 200-450
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz", # 300-550
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B15_-__Walk_turn_around_stageii.npz", # 0-300
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B22_-__side_step_left_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B23_-__side_step_right_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B4_-_Stand_to_Walk_backwards_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B9_-__Walk_turn_left_90_stageii.npz"
+        # default="../ACCAD/Male2Walking_c3d/B10_-__Walk_turn_left_45_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B13_-__Walk_turn_right_90_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B14_-__Walk_turn_right_45_t2_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B15_-__Walk_turn_around_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B22_-__side_step_left_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B23_-__side_step_right_stageii.npz",
         
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B5_-__Walk_backwards_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Walking_c3d/B11_-__Walk_turn_left_135_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B5_-__Walk_backwards_stageii.npz",
+        # default="../ACCAD/Male2Walking_c3d/B11_-__Walk_turn_left_135_stageii.npz",
         
-
 
         # male2 run 8
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C1_-_stand_to_run_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C3_-_run_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_a_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C4_-_run_to_walk_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C5_-_walk_to_run_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C12_-_run_turn_left_45_stageii.npz", # 80-230
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C15_-_run_turn_right_45_stageii.npz",
-        # default="/home/msi/Desktop/ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz", # 50-200
+        # default="../ACCAD/Male2Running_c3d/C1_-_stand_to_run_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C3_-_run_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C4_-_run_to_walk_a_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C4_-_run_to_walk_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C5_-_walk_to_run_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C12_-_run_turn_left_45_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C15_-_run_turn_right_45_stageii.npz",
+        # default="../ACCAD/Male2Running_c3d/C17_-_run_change_direction_stageii.npz",
 
         
         # CMU motion
-        # default="/home/msi/Desktop/CMU/02/02_02.npz", # walk
-        # default="/home/msi/Desktop/CMU/16/16_34.npz", # walk stop
+        # default="../CMU/02/02_03.npz", # walk
+        # default="../CMU/16/16_34.npz", # walk stop
 
-        
-        # default="/home/msi/Desktop/CMU/36/36_02_stageii.npz", # 走路 右转慢转身
-        # default="/home/msi/Desktop/CMU/36/36_03_stageii.npz", # 走路 右转慢转身
-        # default="/home/msi/Desktop/CMU/36/36_09_stageii.npz", # 小步走 跨步 慢转身
-        
-        # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # 跑步 左转 停下
-        # default="/home/msi/Desktop/CMU/127/127_16_stageii.npz", # 跑步 右转 停下
-        
-        # default="/home/msi/Desktop/CMU/127/127_03.npz", # stand to 跑步
-        # default="/home/msi/Desktop/CMU/127/127_04.npz", # walk to run
-        
-        # default="/home/msi/Desktop/CMU/127/127_06.npz", # run
-        # default="/home/msi/Desktop/CMU/127/127_09.npz", # Run Right
-        # default="/home/msi/Desktop/CMU/127/127_11.npz", # Run Left
-        # default="/home/msi/Desktop/CMU/127/127_15_stageii.npz", # Run Left
-        # default="/home/msi/Desktop/CMU/127/127_16_stageii.npz", # Run Right
-        # default="/home/msi/Desktop/CMU/127/127_18.npz", # Run Stop Run
-        # default="/home/msi/Desktop/CMU/143/143_02.npz", # Run to Stop
-        # default="/home/msi/Desktop/CMU/143/143_03.npz", # Start to Run        
-        
-        
+        # default="../CMU/36/36_02_stageii.npz", # 走路 右转慢转身
+        # default="../CMU/36/36_03_stageii.npz", # 走路 右转慢转身
+        # default="../CMU/36/36_09_stageii.npz", # 小步走 跨步 慢转身
+        # default="../CMU/127/127_15_stageii.npz",
+        # default="../CMU/127/127_16_stageii.npz",
+        # default="../CMU/127/127_03.npz", # stand to 跑步
+        # default="../CMU/127/127_04.npz", # walk to run
+        # default="../CMU/127/127_06.npz", # run
+        # default="../CMU/127/127_09.npz", # Run Right
+        # default="../CMU/127/127_11.npz", # Run Left
+        # default="../CMU/127/127_15_stageii.npz", # Run Left
+        # default="../CMU/127/127_16_stageii.npz", # Run Right
+        # default="../CMU/127/127_18.npz", # Run Stop Run
+        # default="../CMU/143/143_02.npz", # Run to Stop
+        # default="../CMU/143/143_03.npz", # Start to Run       
+        # default="../CMU/143/143_35.npz", # dance
+        # default="../CMU/90/90_28.npz", # dance
+        # default="../CMU/02/02_03.npz", # jog
+        # default="../CMU/35/35_17.npz", # jog
+        # default="../CMU/74/74_20.npz", # 
+        # default="../CMU/36/36_01.npz", # 上下箱子
+        # default="../CMU/36/36_11.npz", # 上下箱子 重复
+        # default="../CMU/114/114_08.npz", # 上下楼梯 两步一台阶
+        # default="../CMU/114/114_09.npz", # 上下楼梯 一步一台阶
+
         )
    
     parser.add_argument(
@@ -93,20 +97,14 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_motion_start_end",
-        default=[0, 500],
+        default=[500, 9999],
         help="Whether to save a slice of the robot motion.",
     )
 
     parser.add_argument(
         "--save_as_pkl",
-        default=False, # True or False
+        default=True, # True or False
         help="whether to save the robot motion as pkl format.",
-    )
-
-    parser.add_argument(
-        "--save_as_txt",
-        default=False, # True or False
-        help="whether to save the robot motion as txt format.",
     )
     
     parser.add_argument(
@@ -126,11 +124,8 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02"],
-        default="roboparty_atom01",
-        # default="roboparty_atom01_long_base_link",
-        # default="roboparty_atom02",
-        # default="unitree_g1",
+                "pnd_adam_lite", "openlong", "rpo"],
+        default="rpo",
     )
     args_cli = parser.parse_args()
     parser.add_argument(
@@ -176,11 +171,14 @@ if __name__ == "__main__":
     src_fps = smplx_data["mocap_frame_rate"].item()
     tgt_fps = src_fps
     
-    print("Original FPS:", src_fps)
-    print("Target FPS:", tgt_fps)
+
     
     smplx_data_frames, aligned_fps = get_smplx_data_offline_fast(smplx_data, body_model, smplx_output, tgt_fps=tgt_fps)
-    
+   
+    print("Original FPS:", src_fps)
+    print("Target FPS:", tgt_fps)
+    print("Original motion length (frames):", smplx_data["pose_body"].shape[0])
+    print("Aligned motion length (frames):", len(smplx_data_frames))
    
     # Initialize the retargeting system
     retargeter = GMR(
@@ -270,6 +268,12 @@ if __name__ == "__main__":
             qpos = retargeter.retarget(smplx_data)
             robot_frames = retargeter.ik_match_table1.keys()
 
+            
+            default_root_pos = np.array([0.0, 0.0, 0.75], dtype=np.double)
+            default_root_rot = np.array([0.0, 0.0, 0.0, 1.0], dtype=np.double)
+            default_pos = np.array([0, 0, -0.0, 0.0, -0.0, 0, 0, 0, -0.0, 0.0, -0.0, 0, 0, 0.0, 0.06, 0, 1.2, 0, 0.0, -0.06, 0, 1.2, 0], dtype=np.double)
+            
+            
             # visualize
             robot_motion_viewer.step(
                 root_pos=qpos[:3],
@@ -324,9 +328,9 @@ if __name__ == "__main__":
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        # ground_offset = -0.05
+        ground_offset = 0.05
         lowerst_height = torch.min(body_pos[..., 2]).item()
-        root_pos[:, 2] = root_pos[:, 2] - lowerst_height # make sure motion on the ground
+        root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
         
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
@@ -422,13 +426,16 @@ if __name__ == "__main__":
             "root_rot": root_rot,
             "dof_names": dof_names,
             "body_names": body_names,
-            # "link_body_list": body_names, # # to be modified if needed in AMP(legged_lab)
             "dof_positions": dof_pos,
             "dof_pos": dof_pos,
             "body_positions": body_pos,
             "body_rotations": body_rot,
             "local_body_pos": body_pos,
         }
+        
+        # for jnt in dof_names:
+        #     print("-", jnt)
+        
         print("saving motion data...")
         print("body_names:", body_names)
         print("dof_names:", dof_names)
@@ -465,7 +472,6 @@ if __name__ == "__main__":
         base_no_ext = os.path.join(args.save_path, base_name)
         npz_path = base_no_ext + ".npz"
         pkl_path = base_no_ext + ".pkl"
-        txt_path = base_no_ext + ".txt"
         npz_dir = os.path.dirname(npz_path)
         if npz_dir:
             os.makedirs(npz_dir, exist_ok=True)
@@ -487,23 +493,14 @@ if __name__ == "__main__":
         if args.save_as_pkl:
             # 2) Save pkl
             try:
-                joblib.dump(npz_dict, pkl_path)
+                with open(pkl_path, "wb") as f:
+                    pickle.dump(npz_dict, f)
                 print(f"Saved to {pkl_path}")
             except Exception as _e:
-                print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
-
-        if args.save_as_txt:
-            # 3) Save txt
-            try:
-                with open(txt_path, "w") as f:
-                    for k, v in npz_dict.items():
-                        f.write(f"{k}: {v}\n")
-                print(f"Saved to {txt_path}")
-            except Exception as e:
-                print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
+                print(f"[WARN] pickle dump failed for {pkl_path}: {_e}")
 
         if args.save_as_csv:
-            # 4) Save csv for beyondmimic
+            # 3) Save csv for beyondmimic
             try:
                 def export_to_csv(root_pos, root_rot, dof_pos, filename):
                     num_frames = root_pos.shape[0]

@@ -22,9 +22,7 @@ ROBOT_XML_DICT = {
     "pnd_adam_lite": ASSET_ROOT / "pnd_adam_lite" / "scene.xml",
     "tienkung": ASSET_ROOT / "tienkung" / "mjcf" / "tienkung.xml",
     "pal_talos": ASSET_ROOT / "pal_talos" / "talos.xml",
-    "roboparty_atom01": ASSET_ROOT / "roboparty_atom01" / "atom01.xml",
-    "roboparty_atom01_long_base_link": ASSET_ROOT / "roboparty_atom01_long_base_link" / "roboparty_atom01_long_base_link.xml",
-    "roboparty_atom02": ASSET_ROOT / "roboparty_atom02" / "mjcf" / "robot.xml",
+    "rpo": ASSET_ROOT / "rpo" / "rpo.xml",
 }
 
 IK_CONFIG_DICT = {
@@ -46,9 +44,7 @@ IK_CONFIG_DICT = {
         "booster_k1": IK_CONFIG_ROOT / "smplx_to_k1.json",
         "pnd_adam_lite": IK_CONFIG_ROOT / "smplx_to_adam.json",
         "tienkung": IK_CONFIG_ROOT / "smplx_to_tienkung.json",
-        "roboparty_atom01": IK_CONFIG_ROOT / "smplx_to_atom01.json",
-        "roboparty_atom01_long_base_link": IK_CONFIG_ROOT / "smplx_to_atom01_long_base_link.json",
-        "roboparty_atom02": IK_CONFIG_ROOT / "smplx_to_atom02.json",
+        "rpo": IK_CONFIG_ROOT / "smplx_to_rpo.json",
     },
     "bvh_lafan1":{
         "unitree_g1": IK_CONFIG_ROOT / "bvh_lafan1_to_g1.json",
@@ -58,8 +54,7 @@ IK_CONFIG_DICT = {
         "stanford_toddy": IK_CONFIG_ROOT / "bvh_lafan1_to_toddy.json",
         "engineai_pm01": IK_CONFIG_ROOT / "bvh_lafan1_to_pm01.json",
         "pal_talos": IK_CONFIG_ROOT / "bvh_to_talos.json",
-        "roboparty_atom01": IK_CONFIG_ROOT / "bvh_lafan1_to_atom01.json",
-        "roboparty_atom02": IK_CONFIG_ROOT / "bvh_lafan1_to_atom02.json",
+        "rpo": IK_CONFIG_ROOT / "bvh_lafan1_to_rpo.json",
     },
     "bvh_test":{
         "unitree_g1": IK_CONFIG_ROOT / "bvh_test_to_g1.json",
@@ -99,9 +94,7 @@ ROBOT_BASE_DICT = {
     "pnd_adam_lite": "pelvis",
     "tienkung": "Base_link",
     "pal_talos": "base_link",
-    "roboparty_atom01": "base_link",
-    "roboparty_atom01_long_base_link": "base_link",
-    "roboparty_atom02": "base_link",
+    "rpo": "base_link",
 }
 
 VIEWER_CAM_DISTANCE_DICT = {
@@ -122,7 +115,5 @@ VIEWER_CAM_DISTANCE_DICT = {
     "pnd_adam_lite": 3.0,
     "tienkung": 3.0,
     "pal_talos": 3.0,
-    "roboparty_atom01": 2.0,
-    "roboparty_atom01_long_base_link": 2.0,
-    "roboparty_atom02": 2.0,
+    "rpo": 2.0,
 }

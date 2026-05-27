@@ -12,7 +12,7 @@ from general_motion_retargeting.kinematics_model import KinematicsModel
 
 from rich import print
 import torch
-import joblib
+import pickle
 import termios
 import sys
 import select
@@ -29,7 +29,7 @@ if __name__ == "__main__":
         "--gvhmr_pred_file",
         help="SMPLX motion file to load.",
         type=str,
-        default="gvhmr_pt/move_back.pt",
+        default="gvhmr_pt/turn_r.pt",
     )
     
     parser.add_argument(
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--slice_motion_start_end",
-        default=[20, 100],
+        default=[0, 1000],
         help="Whether to save a slice of the robot motion.",
     )
     
@@ -48,12 +48,6 @@ if __name__ == "__main__":
         "--save_as_pkl",
         default=False, # True or False
         help="whether to save the robot motion as pkl format.",
-    )
-
-    parser.add_argument(
-        "--save_as_txt",
-        default=False, # True or False
-        help="whether to save the robot motion as txt format.",
     )
     
     parser.add_argument(
@@ -73,10 +67,8 @@ if __name__ == "__main__":
         choices=["unitree_g1", "unitree_g1_with_hands", "unitree_h1", "unitree_h1_2",
                  "booster_t1", "booster_t1_29dof","stanford_toddy", "fourier_n1", 
                 "engineai_pm01", "kuavo_s45", "hightorque_hi", "galaxea_r1pro", "berkeley_humanoid_lite", "booster_k1",
-                "pnd_adam_lite", "openlong", "roboparty_atom01", "roboparty_atom01_long_base_link","roboparty_atom02"],
-        # default="roboparty_atom01_long_base_link",
-        # default="roboparty_atom01",
-        default="roboparty_atom02",
+                "pnd_adam_lite", "openlong", "rpo"],
+        default="rpo",
         # default="unitree_g1",
     )
     
@@ -120,12 +112,14 @@ if __name__ == "__main__":
     
     
     src_fps = smplx_data["mocap_frame_rate"].item()
-    tgt_fps = src_fps
-    print("Original FPS:", src_fps)
-    print("Target FPS:", tgt_fps)
+    tgt_fps = 50
+
     smplx_data_frames, aligned_fps = get_gvhmr_data_offline_fast(smplx_data, body_model, smplx_output, tgt_fps=tgt_fps)
     
-    
+    print("Original FPS:", src_fps)
+    print("Target FPS:", tgt_fps)
+    print("Original motion length (frames):", smplx_data["pose_body"].shape[0])
+    print("Aligned motion length (frames):", len(smplx_data_frames))
    
     # Initialize the retargeting system
     retarget = GMR(
@@ -270,9 +264,9 @@ if __name__ == "__main__":
         body_pos, body_rot = kinematics_model.forward_kinematics(torch.from_numpy(root_pos).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(root_rot).to(device=device, dtype=torch.float), 
                                                         torch.from_numpy(dof_pos).to(device=device, dtype=torch.float)) # TxNx3
-        # ground_offset = -0.05
+        ground_offset = 0.05
         lowerst_height = torch.min(body_pos[..., 2]).item()
-        root_pos[:, 2] = root_pos[:, 2] - lowerst_height # make sure motion on the ground
+        root_pos[:, 2] = root_pos[:, 2] - lowerst_height + ground_offset # make sure motion on the ground
          
     ROOT_ORIGIN_OFFSET = True
     if ROOT_ORIGIN_OFFSET:
@@ -359,32 +353,22 @@ if __name__ == "__main__":
     root_rot[:, [0, 1, 2, 3]] = root_rot[:, [1, 2, 3, 0]] # xyzw to wxyz
 
     if args.save_path is not None:
-
-        # Compute velocities
-        dof_vel = torch.gradient(torch.from_numpy(dof_pos).float(), spacing=1/tgt_fps, dim=0)[0]
+        
         motion_data = {
-            "fps": tgt_fps,
+            "fps": aligned_fps,
             "root_pos": root_pos,
             "root_rot": root_rot,
-            # "dof_names": dof_names,
-            # "body_names": body_names,
-            # "link_body_list": body_names,
+            "dof_names": dof_names,
+            "body_names": body_names,
             "dof_positions": dof_pos,
             "dof_pos": dof_pos,
-            # "body_positions": body_pos,
-            # "local_body_pos": body_pos,
-            # "body_rotations": body_rot,
-            
-            # dataset for beyond mimic
-            "joint_names": dof_names,
-            "joint_pos": dof_pos,
-            "joint_vel": dof_vel,
-            "body_pos_w": root_pos,
-            "body_quat_w": root_rot,
+            "body_positions": body_pos,
+            "body_rotations": body_rot,
+            "local_body_pos": body_pos,
         }
 
-        for jnt in dof_names:
-            print("-", jnt)
+        # for jnt in dof_names:
+        #     print("-", jnt)
         
         
         print("dof names:", dof_names)
@@ -420,11 +404,11 @@ if __name__ == "__main__":
             return out
 
         # Use the parent directory name of the gvhmr_pred_file as the base filename
-        base_name = os.path.basename(os.path.dirname(args.gvhmr_pred_file))
-        base_no_ext = os.path.join(args.save_path, base_name)
+        base_name = os.path.basename(args.gvhmr_pred_file)
+        base_name_no_ext = os.path.splitext(base_name)[0]
+        base_no_ext = os.path.join(args.save_path, base_name_no_ext)
         npz_path = base_no_ext + ".npz"
         pkl_path = base_no_ext + ".pkl"
-        txt_path = base_no_ext + ".txt"
         npz_dir = os.path.dirname(npz_path)
         if npz_dir:
             os.makedirs(npz_dir, exist_ok=True)
@@ -446,23 +430,14 @@ if __name__ == "__main__":
         if args.save_as_pkl:
             # 2) Save pkl
             try:
-                joblib.dump(npz_dict, pkl_path)
+                with open(pkl_path, "wb") as f:
+                    pickle.dump(npz_dict, f)
                 print(f"Saved to {pkl_path}")
             except Exception as _e:
-                print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
-
-        if args.save_as_txt:
-            # 3) Save txt
-            try:
-                with open(txt_path, "w") as f:
-                    for k, v in npz_dict.items():
-                        f.write(f"{k}: {v}\n")
-                print(f"Saved to {txt_path}")
-            except Exception as e:
-                print(f"[ERROR] Saving .txt failed for {txt_path}: {e}")
+                print(f"[WARN] pickle dump failed for {pkl_path}: {_e}")
 
         if args.save_as_csv:
-            # 4) Save csv
+            # 3) Save csv
             try:
                 def export_to_csv(root_pos, root_rot, dof_pos, filename):
                     num_frames = root_pos.shape[0]
