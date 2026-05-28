@@ -33,7 +33,7 @@ def check_memory(threshold_gb=1):  # adjust based on your available memory
 HERE = pathlib.Path(__file__).parent
 
 
-def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_folder, save_as_pkl, save_as_npz, save_as_txt, save_as_csv, total_files, verbose=False):
+def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_folder, save_as_pkl, save_as_npz, save_as_csv, total_files, verbose=False):
     def log_memory(message):
         if verbose:
             process = psutil.Process(os.getpid())
@@ -50,7 +50,6 @@ def process_file(smplx_file_path, tgt_file_path, tgt_robot, SMPLX_FOLDER, tgt_fo
     # Set save flags
     PKL = save_as_pkl
     NPZ = save_as_npz
-    TXT = save_as_txt
     CSV = save_as_csv
     
     num_pause = 0
@@ -314,7 +313,7 @@ def main():
                 tgt_file_path = os.path.join(tgt_folder, rel_path)
 
                 if not os.path.exists(tgt_file_path) or args.override:
-                    args_list.append((smplx_file_path, tgt_file_path, args.robot, SMPLX_FOLDER, tgt_folder, args.save_as_pkl, args.save_as_npz, args.save_as_txt, args.save_as_csv))
+                    args_list.append((smplx_file_path, tgt_file_path, args.robot, SMPLX_FOLDER, tgt_folder, args.save_as_pkl, args.save_as_npz, args.save_as_csv))
     print("full args_list:", len(args_list))
     
     # remove hard and infeasible motions

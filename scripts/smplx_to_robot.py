@@ -14,7 +14,6 @@ import sys
 import select
 import termios
 import tty
-import joblib
 
 from rich import print
 
@@ -31,7 +30,7 @@ if __name__ == "__main__":
         # required=True,
         
         # stand 1
-        default="../ACCAD/Male2General_c3d/A1-_Stand_stageii.npz",
+        # default="../ACCAD/Male2General_c3d/A1-_Stand_stageii.npz",
         
         # male2 walk 9
         # default="../ACCAD/Male2Walking_c3d/B4_-_Stand_to_Walk_backwards_stageii.npz",
@@ -83,7 +82,7 @@ if __name__ == "__main__":
         # default="../CMU/35/35_17.npz", # jog
         # default="../CMU/74/74_20.npz", # 
         # default="../CMU/36/36_01.npz", # 上下箱子
-        # default="../CMU/36/36_11.npz", # 上下箱子 重复
+        default="../CMU/36/36_11.npz", # 上下箱子 重复
         # default="../CMU/114/114_08.npz", # 上下楼梯 两步一台阶
         # default="../CMU/114/114_09.npz", # 上下楼梯 一步一台阶
 

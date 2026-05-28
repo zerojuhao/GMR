@@ -13,7 +13,7 @@ import sys
 import select
 import termios
 import tty
-import joblib
+import pickle
 
 if __name__ == "__main__":
     
@@ -411,10 +411,11 @@ if __name__ == "__main__":
         if args.save_as_pkl:
             # 2) 保存 pkl
             try:
-                joblib.dump(npz_dict, pkl_path)
+                with open(pkl_path, "wb") as f:
+                    pickle.dump(npz_dict, f)
                 print(f"Saved to {pkl_path}")
             except Exception as _e:
-                print(f"[WARN] joblib dump failed for {pkl_path}: {_e}")
+                print(f"[WARN] pickle dump failed for {pkl_path}: {_e}")
                 
         if args.save_as_csv:
             # 3) 保存 csv
